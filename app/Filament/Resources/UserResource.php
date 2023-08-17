@@ -24,7 +24,7 @@ class UserResource extends Resource
                Card::make()
                 ->schema([
                         TextInput::make('name')->required(),
-                        TextInput::make('email')->required()->email(),
+                        TextInput::make('email')->required()->email()->unique(),
                         TextInput::make('password')->required()->password(),
                 ])
             ]);
