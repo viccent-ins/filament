@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SectionResource\Pages;
 use App\Models\Section;
+use Closure;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -12,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rules\Unique;
 
 
 class SectionResource extends Resource
@@ -28,7 +30,7 @@ class SectionResource extends Resource
                     TextInput::make('name')
                         ->required()
                         ->autofocus()
-                        ->unique()
+                        ->unique(ignoreRecord: true)
                         ->placeholder('Enter Section name'),
                     Select::make('class_id')
                         ->relationship(name: 'class', titleAttribute: 'name')

@@ -30,7 +30,7 @@ class ClassesResource extends Resource
                     TextInput::make('name')
                         ->required()
                         ->autofocus()
-                        ->unique()
+                        ->unique(ignoreRecord: true)
                         ->placeholder('Enter class name'),
                 ])
             ]);
