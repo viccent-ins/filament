@@ -21,12 +21,12 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
 
-         $superAdmin = User::factory()->create([
-             'name' => 'Super Admin',
-             'email' => 'superadmin@gmail.com',
-         ]);
+        $superAdmin = User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@gmail.com',
+        ]);
 
-         $admin = User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
         ]);

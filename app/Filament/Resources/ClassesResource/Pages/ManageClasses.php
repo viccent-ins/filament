@@ -9,7 +9,6 @@ use Filament\Resources\Pages\ManageRecords;
 class ManageClasses extends ManageRecords
 {
     protected static string $resource = ClassesResource::class;
-
     protected function getHeaderActions(): array
     {
         return [
