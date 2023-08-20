@@ -56,7 +56,9 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('email'),
-                TextColumn::make('password'),
+                TextColumn::make('phone'),
+                TextColumn::make('referral'),
+                TextColumn::make('date_of_birth'),
             ])
             ->filters([
                 //
