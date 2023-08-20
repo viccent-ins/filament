@@ -58,9 +58,9 @@ class LatestStudents extends BaseWidget
     {
         return true;
     }
-    protected function getTableRecordsPerPageSelectOptions(): ?array
-    {
-        return ['10', '20'];
-    }
+//    protected function getTableRecordsPerPageSelectOptions(): ?array
+//    {
+//        return ['10', '20'];
+//    }
 
 }
