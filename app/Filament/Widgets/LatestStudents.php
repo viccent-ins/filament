@@ -28,7 +28,7 @@ class LatestStudents extends BaseWidget
     {
         return Student::query()
             ->latest()
-            ->take(5);
+            ;
     }
     protected function getTableColumns(): array
     {
@@ -56,6 +56,11 @@ class LatestStudents extends BaseWidget
     }
     protected function isTablePaginationEnabled(): bool
     {
-        return false;
+        return true;
     }
+    protected function getTableRecordsPerPageSelectOptions(): ?array
+    {
+        return ['10', '20'];
+    }
+
 }

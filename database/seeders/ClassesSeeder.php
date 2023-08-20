@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Classes;
 use App\Models\Section;
 use App\Models\Student;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
