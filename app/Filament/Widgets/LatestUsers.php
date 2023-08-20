@@ -3,13 +3,13 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Student;
-use Filament\Tables;
+use App\Models\User;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
 
-class LatestStudents extends BaseWidget
+class LatestUsers extends BaseWidget
 {
     protected static ?int $sort = 2;
     protected int | string | array $columnSpan = 'full';
@@ -26,9 +26,8 @@ class LatestStudents extends BaseWidget
 //    }
     protected function getTableQuery(): Builder
     {
-        return Student::query()
-            ->latest()
-            ;
+        return User::query()
+            ->latest();
     }
     protected function getTableColumns(): array
     {
@@ -38,20 +37,11 @@ class LatestStudents extends BaseWidget
                 ->searchable()
                 ->sortable(),
             TextColumn::make('email')
-                ->toggleable()
-                ->searchable()
-                ->sortable(),
-            TextColumn::make('phone_number')
                 ->toggleable(),
-            TextColumn::make('class.name')
-                ->sortable(),
-            TextColumn::make('section.name')
-                ->sortable()
-                ->searchable(),
-            TextColumn::make('address')
-                ->wrap()
-                ->searchable()
-                ->toggleable()
+            TextColumn::make('phone')
+                ->toggleable(),
+            TextColumn::make('referral')
+                ->toggleable(),
         ];
     }
     protected function isTablePaginationEnabled(): bool
@@ -60,7 +50,7 @@ class LatestStudents extends BaseWidget
     }
     protected function getTableRecordsPerPageSelectOptions(): ?array
     {
-        return ['10', '20'];
+        return ['10', '25', '50', '50', '100'];
     }
 
 }
