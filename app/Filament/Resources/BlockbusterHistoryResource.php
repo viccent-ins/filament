@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CastResource\Pages;
-use App\Filament\Resources\CastResource\RelationManagers;
-use App\Models\Cast;
+use App\Filament\Resources\BlockbusterHistoryResource\Pages;
+use App\Filament\Resources\BlockbusterHistoryResource\RelationManagers;
+use App\Models\BlockbusterHistory;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
@@ -12,27 +12,28 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Validation\Rules\ImageFile;
 
-class CastResource extends Resource
+class BlockbusterHistoryResource extends Resource
 {
-    protected static ?string $model = Cast::class;
+    protected static ?string $model = BlockbusterHistory::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Detail Page';
-    protected static ?int $navigationSort = 2;
-
+    protected static ?int $navigationSort = 3;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Card::make()->schema([
                     TextInput::make('title')->maxLength(225),
-                    Textarea::make('description'),
+                    Forms\Components\RichEditor::make('description'),
+                    Forms\Components\DatePicker::make('date_end'),
                     FileUpload::make('image'),
+                    TextInput::make('amount_people')->integer(),
+                    TextInput::make('other')->integer(),
                 ])
             ]);
     }
@@ -42,9 +43,12 @@ class CastResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
-                ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('title')->wrap()->limit(20),
-                Tables\Columns\TextColumn::make('description')->wrap(),
+                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('title')->limit(15)->wrap(),
+                Tables\Columns\TextColumn::make('description')->limit(20)->wrap(),
+                Tables\Columns\TextColumn::make('date_end')->date(),
+                Tables\Columns\TextColumn::make('created_at')->dateTime(),
+                Tables\Columns\TextColumn::make('other'),
             ])
             ->filters([
                 //
@@ -73,9 +77,9 @@ class CastResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCasts::route('/'),
-//            'create' => Pages\CreateCast::route('/create'),
-//            'edit' => Pages\EditCast::route('/{record}/edit'),
+            'index' => Pages\ListBlockbusterHistories::route('/'),
+//            'create' => Pages\CreateBlockbusterHistory::route('/create'),
+//            'edit' => Pages\EditBlockbusterHistory::route('/{record}/edit'),
         ];
     }
 }

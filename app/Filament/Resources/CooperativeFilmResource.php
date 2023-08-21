@@ -38,8 +38,9 @@ class CooperativeFilmResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('file')
-                    ->sortable()
+                Tables\Columns\TextColumn::make('id')->sortable(),
+                ImageColumn::make('file')->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->sortable(),
             ])->defaultSort('created_at', 'desc')
             ->filters([
                 //

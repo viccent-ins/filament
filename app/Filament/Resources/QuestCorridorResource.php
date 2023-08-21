@@ -43,10 +43,11 @@ class QuestCorridorResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable(),
+                ImageColumn::make('image')->sortable(),
                 TextColumn::make('name')->sortable(),
                 TextColumn::make('turn')->sortable(),
                 TextColumn::make('percentage')->sortable(),
-                ImageColumn::make('image')
+                TextColumn::make('created_at')->sortable(),
             ])->defaultSort('created_at', 'desc')
             ->filters([
                 //

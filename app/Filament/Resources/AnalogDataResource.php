@@ -43,10 +43,11 @@ class AnalogDataResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable(),
+                ImageColumn::make('image'),
                 TextColumn::make('member_id')->sortable(),
                 TextColumn::make('profit_amount')->sortable(),
                 TextColumn::make('date')->dateTime('d-M-Y'),
-                ImageColumn::make('image')
+                TextColumn::make('created_at')->sortable(),
             ])->defaultSort('created_at', 'desc')
             ->filters([
                 //

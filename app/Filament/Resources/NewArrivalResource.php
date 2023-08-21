@@ -45,9 +45,10 @@ class NewArrivalResource extends Resource
             ->columns([
                 TextColumn::make('title')->searchable(),
                 TextColumn::make('start'),
-                TextColumn::make('date_arrival'),
+                TextColumn::make('date_arrival')->date(),
                 TextColumn::make('minute'),
-                TextColumn::make('summery'),
+                TextColumn::make('summery')->wrap(),
+                TextColumn::make('created_at'),
             ])
             ->filters([
 
