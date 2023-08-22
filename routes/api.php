@@ -25,4 +25,7 @@ Route::controller(\App\Http\Controllers\API\AuthController::class)->group(functi
     Route::get('refresh', 'refresh');
 //    Route::get('getProfile', 'userProfile');
 });
+Route::prefix('home')->controller(\App\Http\Controllers\API\HomePageController::class)->group(function () {
+    Route::get('getSlides', 'getSlide');
+});
 
