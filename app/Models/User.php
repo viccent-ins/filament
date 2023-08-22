@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,8 +52,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-//    public function canAccessFilament(): bool
-//    {
-//        return $this->hasRole('admin');
-//    }
+    public function canAccessFilament(): bool
+    {
+        return $this->hasRole('admin');
+    }
+    public function Deposits(): HasMany {
+        return $this->hasMany(Deposit::class,'user_id');
+    }
 }
