@@ -14,9 +14,9 @@ class StatesOveriew extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Total Student', Student::count()),
-            Stat::make('Total Classes', Classes::count()),
-            Stat::make('Total Section', Section::count()),
+//            Stat::make('Total Student', Student::count()),
+//            Stat::make('Total Classes', Classes::count()),
+//            Stat::make('Total Section', Section::count()),
         ];
     }
 }

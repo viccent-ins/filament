@@ -2,11 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DepositResource\Pages;
-use App\Filament\Resources\DepositResource\RelationManagers;
-use App\Models\Deposit;
-use App\Models\User;
-use Closure;
+use App\Filament\Resources\WithdrawalResource\Pages;
+use App\Filament\Resources\WithdrawalResource\RelationManagers;
+use App\Models\Withdraw;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
@@ -15,22 +13,24 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-
-class DepositResource extends Resource
+class WithdrawResource extends Resource
 {
-    protected static ?string $model = Deposit::class;
+    protected static ?string $model = Withdraw::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
     protected static ?string $navigationGroup = 'User Information';
-    public ?int $userId;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\TextInput::make('deposit')->required(),
+                    Forms\Components\TextInput::make('withdraw')->required()->integer(),
+                    Forms\Components\TextInput::make('bank_name')->required(),
                     Select::make('user_id')
                         ->relationship(name: 'users', titleAttribute: 'name')->required()
                 ])
@@ -42,7 +42,8 @@ class DepositResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id'),
-                TextColumn::make('deposit'),
+                TextColumn::make('withdraw'),
+                TextColumn::make('bank_name'),
                 TextColumn::make('users.name')->label('User Name'),
             ])
             ->filters([
@@ -71,9 +72,9 @@ class DepositResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDeposits::route('/'),
-//            'create' => Pages\CreateDeposit::route('/create'),
-//            'edit' => Pages\EditDeposit::route('/{record}/edit'),
+            'index' => Pages\ListWithdrawals::route('/'),
+//            'create' => Pages\CreateWithdrawal::route('/create'),
+//            'edit' => Pages\EditWithdrawal::route('/{record}/edit'),
         ];
     }
 }
