@@ -62,4 +62,7 @@ class User extends Authenticatable
     public function Withdrawals(): HasMany {
         return $this->hasMany(Deposit::class,'user_id');
     }
+    public function BankCardManagements(): BelongsTo {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

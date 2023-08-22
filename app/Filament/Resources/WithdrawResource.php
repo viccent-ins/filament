@@ -45,7 +45,7 @@ class WithdrawResource extends Resource
                 TextColumn::make('withdraw'),
                 TextColumn::make('bank_name'),
                 TextColumn::make('users.name')->label('User Name'),
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
