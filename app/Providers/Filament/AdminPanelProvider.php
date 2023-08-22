@@ -74,7 +74,7 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Detail Page')
                     ->collapsed(),
                 NavigationGroup::make()
-                    ->label('Academic Management')
+                    ->label('User Information')
 //                    ->icon('heroicon-o-pencil')
                     ->collapsed(),
                 NavigationGroup::make()
