@@ -27,5 +27,13 @@ Route::controller(\App\Http\Controllers\API\AuthController::class)->group(functi
 });
 Route::prefix('home')->controller(\App\Http\Controllers\API\HomePageController::class)->group(function () {
     Route::get('getSlides', 'getSlide');
+    Route::get('getQuestCorridors', 'getQuestCorridor');
+    Route::get('getAnalogData', 'getAnalogData');
+    Route::get('getCooperatedFilms', 'getCooperatedFilm');
 });
-
+Route::prefix('detail-page')->controller(\App\Http\Controllers\API\DetailPageController::class)->group(function () {
+    Route::get('getNewArrival', 'getNewArrival');
+    Route::get('getCasts', 'getCast');
+    Route::get('getBlockbusterHistories', 'getBlockbusterHistory');
+    Route::get('getInvestments', 'getInvestment');
+});

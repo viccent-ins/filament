@@ -28,7 +28,7 @@ class AnalogDataResource extends Resource
             ->schema([
                 Forms\Components\Card::make()
                     ->schema([
-                        TextInput::make('member_id')->required()->maxLength(8)->minLength(6),
+                        TextInput::make('member_id')->required()->maxLength(8)->minLength(6)->numeric(),
                         TextInput::make('profit_amount')->required()->maxLength(10)->minLength(2),
                         DatePicker::make('date')->format('d-m-Y')->required(),
                         FileUpload::make('image')->required(),

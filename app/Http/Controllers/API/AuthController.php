@@ -35,26 +35,31 @@ class AuthController extends BaseResponseController
     public function register(Request $request): Response
     {
         $request->validate([
-            'phone' => 'required',
+            'phone' => 'required|unique:users,phone',
+            'email' => 'required|unique:users,email',
             'nick_name' => 'required|string|max:255',
             'password' => 'required|string|min:6|confirmed',
         ]);
-        $inputValues['phone'] = $request->phone;
+//        $inputValues['phone'] = $request->phone;
+//        $inputValues['email'] = $request->email;
         // checking if email exists in ‘email’ in the ‘users’ table
-        $rules = array('phone' => 'unique:users,phone');
-        $validator = Validator::make($inputValues, $rules);
-
-        if ($validator->fails()) {
-            return Response(['Message' => 'The phone already exists'], 200);
-        }
-        $credentials = User::create([
+//        $rules = array(
+//            'phone' => 'unique:users,phone',
+//            'email' => 'unique:users,email',
+//        );
+//        $validator = Validator::make($inputValues, $rules);
+//
+//        if ($validator->fails()) {
+//            return Response(['Message' => 'The phone already exists'], 200);
+//        }
+        $user = User::create([
             'phone' => $request->phone,
             'password' => bcrypt($request->password),
             'nick_name' => $request->nick_name,
             'email' => $request->email ?? '',
             'referral' => $request->referral_code,
         ]);
-        $token = $credentials->createToken('authToken');
+        $token = $user->createToken('authToken');
         return $this->responseToken($token);
     }
 
