@@ -31,8 +31,8 @@ class WithdrawResource extends Resource
                 Card::make()->schema([
                     Forms\Components\TextInput::make('withdraw')->required()->integer(),
                     Forms\Components\TextInput::make('bank_name')->required(),
-                    Select::make('user_id')
-                        ->relationship(name: 'users', titleAttribute: 'name')->required()
+                    Select::make('user_id')->label('User Id')
+                        ->relationship('users', 'id')->required()
                 ])
             ]);
     }

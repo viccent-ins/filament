@@ -56,10 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasRole('admin');
     }
-    public function Deposits(): HasMany {
-        return $this->hasMany(Deposit::class,'user_id');
+    public function deposits(): HasMany {
+        return $this->hasMany(Deposit::class, 'user_id');
     }
-    public function Withdrawals(): HasMany {
+    public function withdrawals(): HasMany {
         return $this->hasMany(Deposit::class,'user_id');
     }
     public function BankCardManagements(): BelongsTo {

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('withdraw')->nullable();
             $table->string('bank_name')->nullable();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

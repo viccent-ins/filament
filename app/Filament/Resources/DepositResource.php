@@ -30,9 +30,9 @@ class DepositResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\TextInput::make('deposit')->required(),
-                    Select::make('user_id')
-                        ->relationship(name: 'users', titleAttribute: 'name')->required()
+                    Forms\Components\TextInput::make('deposit')->required()->integer(),
+                    Select::make('id')->label('User Id')
+                        ->relationship(name: 'users', titleAttribute: 'id')
                 ])
             ]);
     }
@@ -50,6 +50,7 @@ class DepositResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+//                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
