@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('withdraws', function (Blueprint $table) {
             $table->id();
-            $table->integer('withdraw')->nullable();
+            $table->integer('withdraw_amount')->nullable();
+            $table->string('withdraw_bank')->nullable();
             $table->string('bank_name')->nullable();
+            $table->boolean('is_approve')->default(false);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

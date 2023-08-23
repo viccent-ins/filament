@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BankCardManagementResource\Pages;
 use App\Filament\Resources\BankCardManagementResource\RelationManagers;
 use App\Models\BankCardManagement;
-use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -32,7 +31,7 @@ class BankCardManagementResource extends Resource
                     TextInput::make('card_address')->required(),
                     TextInput::make('card_address_2')->required(),
                     Select::make('user_id')
-                        ->relationship(name: 'users', titleAttribute: 'name')->required(),
+                        ->relationship(name: 'users', titleAttribute: 'id')->required(),
                     TextInput::make('others'),
                 ])
             ]);

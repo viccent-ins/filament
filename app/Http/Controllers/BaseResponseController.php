@@ -35,4 +35,7 @@ class BaseResponseController extends Controller
     public function createdBy() {
         return auth()->user()->name;
     }
+    public function getAuthId() {
+        return auth()->user()->id;
+    }
 }

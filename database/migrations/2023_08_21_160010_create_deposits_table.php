@@ -14,7 +14,9 @@ return new class extends Migration
     {
         Schema::create('deposits', function (Blueprint $table) {
             $table->id();
-            $table->integer('deposit')->nullable();
+            $table->integer('deposit_amount')->nullable();
+            $table->string('deposit_bank')->nullable();
+            $table->boolean('is_approve')->default(false);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

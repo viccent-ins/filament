@@ -37,3 +37,10 @@ Route::prefix('detail-page')->controller(\App\Http\Controllers\API\DetailPageCon
     Route::get('getBlockbusterHistories', 'getBlockbusterHistory');
     Route::get('getInvestments', 'getInvestment');
 });
+Route::prefix('personal-account')->controller(\App\Http\Controllers\API\UserAccountController::class)->group(function () {
+    Route::get('getDeposits', 'getDeposit');
+    Route::post('addDeposit', 'storeDeposit');
+    Route::get('getWithdraws', 'getWithdraw');
+    Route::post('addWithdraw', 'storeWithdraw');
+//    Route::get('getInvestments', 'getInvestment');
+});
