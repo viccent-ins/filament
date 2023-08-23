@@ -42,5 +42,6 @@ Route::prefix('personal-account')->controller(\App\Http\Controllers\API\UserAcco
     Route::post('addDeposit', 'storeDeposit');
     Route::get('getWithdraws', 'getWithdraw');
     Route::post('addWithdraw', 'storeWithdraw');
-//    Route::get('getInvestments', 'getInvestment');
+    Route::get('getBankCards', 'getBankCardManagement');
+    Route::post('addBankCard', 'storeBankCardManagement');
 });
