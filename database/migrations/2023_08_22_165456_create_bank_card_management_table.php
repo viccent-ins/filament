@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bank_card_management', function (Blueprint $table) {
             $table->id();
-            $table->string('card_real_name');
+            $table->string('card_name')->nullable();
             $table->string('card_address');
             $table->string('card_address_2')->nullable();
             $table->string('user_id')->nullable();

@@ -27,7 +27,7 @@ class BankCardManagementResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    TextInput::make('card_real_name')->required()->maxLength(225),
+                    TextInput::make('card_name')->required()->maxLength(225),
                     TextInput::make('card_address')->required(),
                     TextInput::make('card_address_2')->required(),
                     Select::make('user_id')
@@ -42,7 +42,7 @@ class BankCardManagementResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id'),
-                TextColumn::make('card_real_name'),
+                TextColumn::make('card_name'),
                 TextColumn::make('card_address'),
                 TextColumn::make('users.name')->label('User Name'),
                 TextColumn::make('created_at')->label('Installed At')->date('y-M-D'),
