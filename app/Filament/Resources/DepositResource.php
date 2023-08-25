@@ -4,17 +4,22 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\DepositResource\Pages;
 use App\Models\Deposit;
+use App\Models\User;
+use App\Models\UserAssets;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 
 class DepositResource extends Resource
@@ -33,7 +38,7 @@ class DepositResource extends Resource
                     Forms\Components\TextInput::make('deposit_amount')->required(),
                     Forms\Components\TextInput::make('deposit_bank'),
                     Select::make('user_id')->label('User Id')->default(1)
-                        ->relationship(name: 'users', titleAttribute: 'id')->reactive()
+                        ->relationship(name: 'users', titleAttribute: 'nick_name')->preload()
                 ])
             ]);
     }
@@ -45,13 +50,35 @@ class DepositResource extends Resource
                 TextColumn::make('id'),
                 TextColumn::make('deposit_amount')->money('usd'),
                 TextColumn::make('deposit_bank'),
-                TextColumn::make('users.name')->label('User Name'),
-                Tables\Columns\ToggleColumn::make('is_approve')->label('Is Approve')
+                TextColumn::make('users.nick_name')->label('User Nick Name'),
+//                Tables\Columns\ToggleColumn::make('is_approve')->label('Is Approve')
             ])->defaultSort('created_at', 'desc')->striped()
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('Approve Balance')
+                    ->action(function (Deposit $record) {
+                       if (!$record->is_approve) {
+//                           $record->is_approve = !$record->is_approve;
+//                           $record->update();
+                           // todo: add user balance assets
+                           $userAssets = UserAssets::where('id', $record->id)->first();
+                           if (is_null($userAssets)) {
+                               $assets = UserAssets::create([
+                                   'user_id' => $record->id,
+                                   'asset_balance' => 0,
+                                   'asset_balance' => 0,
+                               ]);
+                           }
+                           Notification::make()
+                               ->title('Approve Successfully!')
+                               ->success()
+                               ->send();
+                       }
+                    })
+                    ->requiresConfirmation()
+                ->color('success'),
                 Tables\Actions\EditAction::make(),
 //                Tables\Actions\ViewAction::make(),
             ])

@@ -1,33 +1,39 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Assets;
 
-use App\Filament\Resources\UserAssetsResource\Pages;
-use App\Filament\Resources\UserAssetsResource\RelationManagers;
-use App\Models\UserAssets;
+use App\Filament\Resources\Assets\ProfitResource\Pages;
+use App\Models\Assets\Profit;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UserAssetsResource extends Resource
+class ProfitResource extends Resource
 {
-    protected static ?string $model = UserAssets::class;
+    protected static ?string $model = Profit::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'User Information';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Card::make()->schema([
-                    TextInput::make('available_balance')->maxLength(225),
-                    TextInput::make('profit_day')->numeric(),
+                    TextInput::make('asset_profit')
+                        ->numeric()
+                        ->label('Profit of the day')
+                        ->maxLength(225)->required(),
+                    Select::make('user_id')
+                        ->label('User Nick Name')
+                        ->relationship(name: 'users', titleAttribute: 'nick_name')
+                        ->preload()
+                    ,
                 ])
             ]);
     }
@@ -36,9 +42,14 @@ class UserAssetsResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('available_balance'),
-                TextColumn::make('profit_day'),
+                TextColumn::make('id'),
+                TextColumn::make('assets_profit'),
+                TextColumn::make('users.name'),
+                TextColumn::make('created_at')->dateTime('d-M-Y h:i A'),
+                TextColumn::make('created_at'),
             ])
+            ->striped()
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
@@ -66,9 +77,13 @@ class UserAssetsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUserAssets::route('/'),
-//            'create' => Pages\CreateUserAssets::route('/create'),
-//            'edit' => Pages\EditUserAssets::route('/{record}/edit'),
+            'index' => Pages\ListProfits::route('/'),
+//            'create' => Pages\CreateProfit::route('/create'),
+//            'edit' => Pages\EditProfit::route('/{record}/edit'),
         ];
+    }
+    public static function canCreate(): bool
+    {
+        return false;
     }
 }

@@ -65,4 +65,7 @@ class User extends Authenticatable
     public function BankCardManagements(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function assets(): BelongsTo {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
