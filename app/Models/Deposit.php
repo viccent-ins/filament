@@ -10,8 +10,9 @@ class Deposit extends Model
 {
     use HasFactory;
     protected $fillable = [
-      'deposit',
-      'user_id'
+      'deposit_bank',
+      'deposit_amount',
+      'user_id',
     ];
 
     public function users(): BelongsTo

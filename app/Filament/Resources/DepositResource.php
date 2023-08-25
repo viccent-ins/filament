@@ -43,7 +43,7 @@ class DepositResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id'),
-                TextColumn::make('deposit_amount'),
+                TextColumn::make('deposit_amount')->money('usd'),
                 TextColumn::make('deposit_bank'),
                 TextColumn::make('users.name')->label('User Name'),
                 Tables\Columns\ToggleColumn::make('is_approve')->label('Is Approve')

@@ -14,7 +14,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class WithdrawResource extends Resource
 {
@@ -42,7 +41,7 @@ class WithdrawResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id'),
-                TextColumn::make('withdraw_amount'),
+                TextColumn::make('withdraw_amount')->money('usd'),
                 TextColumn::make('withdraw_bank'),
                 TextColumn::make('users.name')->label('User Name'),
                 Tables\Columns\ToggleColumn::make('is_approve')->label('Is Approve')

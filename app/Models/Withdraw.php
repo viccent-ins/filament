@@ -10,8 +10,8 @@ class Withdraw extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'withdraw',
-        'bank_name',
+        'withdraw_amount',
+        'withdraw_bank',
         'user_id',
     ];
     public function users(): BelongsTo {
