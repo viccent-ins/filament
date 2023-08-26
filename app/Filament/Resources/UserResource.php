@@ -46,15 +46,15 @@ class UserResource extends Resource
                         Select::make('role')
                             ->multiple()
                             ->relationship('roles', 'name')->preload(),
+                        TextInput::make('money')->numeric()
+                            ->maxLength(225),
                         Radio::make('status')
                             ->required()
+                            ->columnSpan(2)
                             ->options([
                                 0 => 'Normal',
                                 1 => 'Hidden',
                             ]),
-//                        Select::make('permissions')
-//                            ->multiple()
-//                            ->relationship('permissions', 'name')->preload(),
                     ])->columns(2)
             ]);
     }
@@ -68,7 +68,15 @@ class UserResource extends Resource
                 TextColumn::make('nick_name')->searchable(),
                 TextColumn::make('mobile')->searchable(),
                 TextColumn::make('created_at')->label('JoinDate'),
-                TextColumn::make('status'),
+                TextColumn::make('status')
+                    ->formatStateUsing(fn (string $state): string => __($state == 0 ? 'Normal' : 'Hidden'))
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        '0' => 'success',
+                        '1' => 'danger',
+                    })
+                ,
+                TextColumn::make('money'),
                 TextColumn::make('referral'),
                 TextColumn::make('date_of_birth'),
             ])
