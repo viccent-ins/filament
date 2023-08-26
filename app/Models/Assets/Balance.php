@@ -12,7 +12,7 @@ class Balance extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'asset_profit',
+        'assets_balance',
         'user_id',
     ];
     public function users(): BelongsTo {
