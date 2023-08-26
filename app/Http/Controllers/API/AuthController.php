@@ -19,25 +19,25 @@ class AuthController extends BaseResponseController
     public function login(Request $request): Response
     {
         $request->validate([
-            'phone' => 'required',
+            'username' => 'required',
             'password' => 'required|string',
         ]);
-        $credentials = $request->only('phone', 'password');
+        $credentials = $request->only('username', 'password');
         Auth::attempt($credentials);
         $user = Auth::user();
-        $token = $user->createToken('authToken');
-        if (!$token->accessToken) {
-            return $this->responseUnAuthorize();
+        if ($user == null) {
+            return $this->responseFail('username or password is incorrect');
         }
+        $token = $user->createToken('authToken');
         return $this->responseToken($token);
     }
 
     public function register(Request $request): Response
     {
         $request->validate([
-            'phone' => 'required|unique:users,phone',
-            'email' => 'required|unique:users,email',
+            'username' => 'required|unique:users,phone',
             'nick_name' => 'required|string|max:255',
+            'mobile' => 'required|string|max:255',
             'password' => 'required|string|min:6|confirmed',
         ]);
 //        $inputValues['phone'] = $request->phone;
@@ -53,11 +53,13 @@ class AuthController extends BaseResponseController
 //            return Response(['Message' => 'The phone already exists'], 200);
 //        }
         $user = User::create([
-            'phone' => $request->phone,
-            'password' => bcrypt($request->password),
+            'username' => $request->phone,
             'nick_name' => $request->nick_name,
+            'mobile' => $request->phone,
+            'password' => bcrypt($request->password),
             'email' => $request->email ?? '',
             'referral' => $request->referral_code,
+            'status' => 0,
         ]);
         $token = $user->createToken('authToken');
         return $this->responseToken($token);

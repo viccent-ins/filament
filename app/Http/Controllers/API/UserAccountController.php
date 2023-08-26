@@ -6,10 +6,12 @@ use App\Http\Controllers\BaseResponseController;
 use App\Http\Controllers\Controller;
 use App\Models\BankCardManagement;
 use App\Models\Deposit;
+use App\Models\User;
 use App\Models\Withdraw;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class UserAccountController extends BaseResponseController
 {
@@ -105,6 +107,32 @@ class UserAccountController extends BaseResponseController
         }
         $Result = [
             'BankCardManagement' => $bank,
+        ];
+        return $this->responseSuccess($Result);
+    }
+    public function changePassword (Request $request): Response {
+        $request->validate([
+            'new_password' => 'required|string|min:8|max:16',
+        ]);
+        #Update the Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+        $Result = [
+            'Message' => 'Success',
+        ];
+        return $this->responseSuccess($Result);
+    }
+    public function withdrawPassword (Request $request): Response {
+        $request->validate([
+            'withdraw_password' => 'required|string|min:4|max:4',
+        ]);
+        #Update the Password
+        User::whereId(auth()->user()->id)->update([
+            'withdraw_password' => Hash::make($request->withdraw_password)
+        ]);
+        $Result = [
+            'Message' => 'Success',
         ];
         return $this->responseSuccess($Result);
     }

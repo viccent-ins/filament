@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\Page;
@@ -28,21 +29,29 @@ class UserResource extends Resource
             ->schema([
                 Card::make()
                     ->schema([
-                        TextInput::make('name')
+                        TextInput::make('username')
                             ->required()
                             ->maxLength(225),
-                        TextInput::make('email')
+                        TextInput::make('nick_name')
                             ->required()
-                            ->email()
-                            ->unique(ignoreRecord: true)
                             ->maxLength(225),
                         TextInput::make('password')
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             ->dehydrated(fn ($state) => filled($state))
                             ->required(fn (Page $livewire) => $livewire instanceof  Pages\CreateUser)->password(),
+                        TextInput::make('referral')
+                            ->maxLength(225),
+                        TextInput::make('mobile')->numeric()
+                            ->maxLength(225),
                         Select::make('role')
                             ->multiple()
                             ->relationship('roles', 'name')->preload(),
+                        Radio::make('status')
+                            ->required()
+                            ->options([
+                                0 => 'Normal',
+                                1 => 'Hidden',
+                            ]),
 //                        Select::make('permissions')
 //                            ->multiple()
 //                            ->relationship('permissions', 'name')->preload(),
@@ -54,9 +63,12 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->searchable(),
-                TextColumn::make('email'),
-                TextColumn::make('phone'),
+                TextColumn::make('id')->searchable(),
+                TextColumn::make('username')->searchable(),
+                TextColumn::make('nick_name')->searchable(),
+                TextColumn::make('mobile')->searchable(),
+                TextColumn::make('created_at')->label('JoinDate'),
+                TextColumn::make('status'),
                 TextColumn::make('referral'),
                 TextColumn::make('date_of_birth'),
             ])

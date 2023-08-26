@@ -14,24 +14,24 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles ;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'deposit_id',
-        'phone',
+        'username',
         'nick_name',
+        'password',
+        'email',
+        'mobile',
         'date_of_birth',
-        'referral_code',
+        'referral',
         'role',
+        'withdraw_password',
     ];
+
+    use HasApiTokens, HasFactory, Notifiable, HasRoles ;
 
     /**
      * The attributes that should be hidden for serialization.
