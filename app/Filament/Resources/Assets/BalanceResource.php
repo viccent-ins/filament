@@ -4,17 +4,13 @@ namespace App\Filament\Resources\Assets;
 
 use App\Filament\Resources\Assets\BalanceResource\Pages;
 use App\Models\Assets\Balance;
-use Filament\Forms;
 use Filament\Forms\Components\Card;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BalanceResource extends Resource
 {
@@ -28,16 +24,15 @@ class BalanceResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    TextInput::make('asset_balance')
-                        ->label('Available Balance')
-                        ->maxLength(225)
+                    TextInput::make('assets_balance')->numeric()
+                        ->maxLength(10)
                         ->required(),
-                    Select::make('user_id')
-                        ->required()
-                        ->label('User Nick Name')
-                        ->relationship(name: 'users', titleAttribute: 'nick_name')
-                        ->preload()
-                    ,
+//                    Select::make('user_id')
+//                        ->required()
+//                        ->label('User Nick Name')
+//                        ->relationship(name: 'users', titleAttribute: 'nick_name')
+//                        ->preload()
+//                    ,
                 ])
             ]);
     }
@@ -46,7 +41,7 @@ class BalanceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
+                TextColumn::make('user_id'),
                 TextColumn::make('assets_balance')->money('usd'),
                 TextColumn::make('users.name'),
                 TextColumn::make('created_at')->dateTime('d-M-Y h:i A'),
