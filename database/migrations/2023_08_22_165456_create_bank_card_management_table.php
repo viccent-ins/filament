@@ -14,14 +14,13 @@ return new class extends Migration
         Schema::create('bank_card_management', function (Blueprint $table) {
             $table->id();
             $table->string('card_name')->nullable();
-            $table->string('card_address');
-            $table->string('card_address_2')->nullable();
+            $table->string('card_address_trc');
+            $table->string('card_address_erc')->nullable();
             $table->string('user_id')->nullable();
             $table->string('others')->nullable();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
