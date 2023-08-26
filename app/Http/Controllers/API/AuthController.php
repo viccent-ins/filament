@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class AuthController extends BaseResponseController
 {
@@ -22,40 +23,33 @@ class AuthController extends BaseResponseController
             'username' => 'required',
             'password' => 'required|string',
         ]);
-        $credentials = $request->only('username', 'password');
-        Auth::attempt($credentials);
-        $user = Auth::user();
-        if ($user == null) {
-            return $this->responseFail('username or password is incorrect');
+        try {
+            $credentials = $request->only('username', 'password');
+            Auth::attempt($credentials);
+            $user = Auth::user();
+            if ($user == null) {
+                return $this->responseFail('username or password is incorrect');
+            }
+            $token = $user->createToken('authToken');
+        } catch (Exception $e) {
+            echo $e->getMessage();   // insert query
+            return $this->responseFail($e);
         }
-        $token = $user->createToken('authToken');
         return $this->responseToken($token);
     }
 
     public function register(Request $request): Response
     {
         $request->validate([
-            'username' => 'required|unique:users,phone',
+            'username' => 'required|unique:users,username',
             'nick_name' => 'required|string|max:255',
             'mobile' => 'required|string|max:255',
             'password' => 'required|string|min:6|confirmed',
         ]);
-//        $inputValues['phone'] = $request->phone;
-//        $inputValues['email'] = $request->email;
-        // checking if email exists in ‘email’ in the ‘users’ table
-//        $rules = array(
-//            'phone' => 'unique:users,phone',
-//            'email' => 'unique:users,email',
-//        );
-//        $validator = Validator::make($inputValues, $rules);
-//
-//        if ($validator->fails()) {
-//            return Response(['Message' => 'The phone already exists'], 200);
-//        }
         $user = User::create([
-            'username' => $request->phone,
+            'username' => $request->username,
             'nick_name' => $request->nick_name,
-            'mobile' => $request->phone,
+            'mobile' => $request->mobile,
             'password' => bcrypt($request->password),
             'email' => $request->email ?? '',
             'referral' => $request->referral_code,

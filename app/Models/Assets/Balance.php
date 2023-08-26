@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Assets;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class BankCardManagement extends Model
+class Balance extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'card_name',
-        'card_address_trc',
-        'card_address_erc',
-        'others',
+        'latest_balance',
+        'previous_balance',
         'user_id',
     ];
-    public function users(): BelongsTo {
+    public function users(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 }

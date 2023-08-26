@@ -31,7 +31,7 @@ class UserAccountController extends BaseResponseController
     public function storeDeposit(Request $request): Response
     {
         $request->validate([
-            'deposit_amount' => 'required|unique:users,phone',
+            'deposit_amount' => 'required',
             'deposit_bank' => 'required',
         ]);
         $deposit = new Deposit();
@@ -61,8 +61,8 @@ class UserAccountController extends BaseResponseController
     public function storeWithdraw(Request $request): Response
     {
         $request->validate([
-            'withdraw_amount' => 'required|unique:users,phone',
-            'withdraw_bank' => 'required|unique:users,phone',
+            'withdraw_amount' => 'required',
+            'withdraw_bank' => 'required',
         ]);
         $withdraw = new Withdraw();
         try {
@@ -91,8 +91,8 @@ class UserAccountController extends BaseResponseController
     public function storeBankCardManagement(Request $request): Response
     {
         $request->validate([
-            'card_name' => 'required|unique:users,phone',
-            'card_address' => 'required|unique:users,phone',
+            'card_name' => 'required',
+            'card_address' => 'required',
         ]);
         $bank = new BankCardManagement();
         try {

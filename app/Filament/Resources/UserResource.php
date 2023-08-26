@@ -46,7 +46,8 @@ class UserResource extends Resource
                         Select::make('role')
                             ->multiple()
                             ->relationship('roles', 'name')->preload(),
-                        TextInput::make('money')->numeric()
+                        TextInput::make('money')
+                            ->numeric()
                             ->maxLength(225),
                         Radio::make('status')
                             ->required()
@@ -68,15 +69,16 @@ class UserResource extends Resource
                 TextColumn::make('nick_name')->searchable(),
                 TextColumn::make('mobile')->searchable(),
                 TextColumn::make('created_at')->label('JoinDate'),
+                TextColumn::make('money')
+                    ->color('success')
+                    ->money('usd'),
                 TextColumn::make('status')
                     ->formatStateUsing(fn (string $state): string => __($state == 0 ? 'Normal' : 'Hidden'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         '0' => 'success',
                         '1' => 'danger',
-                    })
-                ,
-                TextColumn::make('money'),
+                    }),
                 TextColumn::make('referral'),
                 TextColumn::make('date_of_birth'),
             ])

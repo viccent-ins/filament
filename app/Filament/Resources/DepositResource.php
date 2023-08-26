@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\DepositResource\Pages;
 use App\Models\Assets\Balance;
 use App\Models\Deposit;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
@@ -33,7 +34,7 @@ class DepositResource extends Resource
                     Forms\Components\TextInput::make('deposit_amount')->required(),
                     Forms\Components\TextInput::make('deposit_bank'),
                     Select::make('user_id')->label('User Id')->default(1)
-                        ->relationship(name: 'users', titleAttribute: 'nick_name')->preload()
+                        ->relationship('users', empty('user') ? 'user' : 'nick_name')->preload()
                 ])
             ]);
     }
@@ -45,7 +46,8 @@ class DepositResource extends Resource
                 TextColumn::make('id'),
                 TextColumn::make('deposit_amount')->money('usd'),
                 TextColumn::make('deposit_bank'),
-                TextColumn::make('users.nick_name')->label('User Nick Name'),
+                TextColumn::make('users.name')->label('Name'),
+                TextColumn::make('users.nick_name')->label('Nick Name'),
             ])->defaultSort('created_at', 'desc')->striped()
             ->filters([
                 //
@@ -55,20 +57,15 @@ class DepositResource extends Resource
                     ->action(function (Deposit $record) {
                        if (!$record->is_approve) {
                            // todo: add user balance assets
-                           $balance = Balance::where('user_id', $record->user_id)->first();
-                           if (is_null($balance)) {
-                               $balanceId = Balance::insertGetId([
-                                  'user_id' =>$record->user_id,
-                                  'assets_balance' => 0
-                               ]);
-                               Balance::where('id', $balanceId)->update([
-                                   'assets_balance' => $record->deposit_amount,
-                               ]);
-                           } else {
-                               Balance::where('user_id', $record->user_id)->update([
-                                   'assets_balance' => $balance->assets_balance + $record->deposit_amount,
-                               ]);
-                           }
+                           $user = User::where('id', $record->user_id)->first();
+                           $user->money = $user->money + $record->deposit_amount;
+                           $user->update();
+//                         //todo: record in Balance table
+                           $balance = new Balance();
+                           $balance->user_id = $record->user_id;
+                           $balance->latest_balance = $record->latest_balance + $record->deposit_amount;
+                           $balance->previous_balance = $record->deposit_amount;
+                           $balance->save();
                            $record->is_approve = 1;
                            $record->update();
                            Notification::make()
