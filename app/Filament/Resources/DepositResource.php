@@ -56,16 +56,19 @@ class DepositResource extends Resource
                 Tables\Actions\Action::make('Approve Balance')
                     ->action(function (Deposit $record) {
                        if (!$record->is_approve) {
+
                            // todo: add user balance assets
                            $user = User::where('id', $record->user_id)->first();
                            $user->money = $user->money + $record->deposit_amount;
                            $user->update();
+
 //                         //todo: record in Balance table
                            $balance = new Balance();
                            $balance->user_id = $record->user_id;
-                           $balance->latest_balance = $record->latest_balance + $record->deposit_amount;
-                           $balance->previous_balance = $record->deposit_amount;
+                           $balance->latest_balance = $user->money;
+                           $balance->previous_balance = $user->money - $record->deposit_amount;
                            $balance->save();
+
                            $record->is_approve = 1;
                            $record->update();
                            Notification::make()

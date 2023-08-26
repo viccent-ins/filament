@@ -4,11 +4,16 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\WithdrawalResource\Pages;
 use App\Filament\Resources\WithdrawalResource\RelationManagers;
+use App\Models\Assets\Balance;
+use App\Models\Assets\Profit;
+use App\Models\Deposit;
+use App\Models\User;
 use App\Models\Withdraw;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -32,7 +37,7 @@ class WithdrawResource extends Resource
                     Forms\Components\TextInput::make('withdraw_bank')->required(),
                     Select::make('user_id')
                         ->label('User Id')
-                        ->relationship(name: 'users', titleAttribute: 'nick_name')->preload()
+                        ->relationship('users', empty('user') ? 'user' : 'nick_name')->preload()
                 ])
             ]);
     }
@@ -44,13 +49,38 @@ class WithdrawResource extends Resource
                 TextColumn::make('id'),
                 TextColumn::make('withdraw_amount')->money('usd'),
                 TextColumn::make('withdraw_bank'),
-                TextColumn::make('users.name')->label('User Name'),
-                Tables\Columns\ToggleColumn::make('is_approve')->label('Is Approve')
+                TextColumn::make('users.name')->label('Name'),
+                TextColumn::make('users.nick_name')->label('Nick Name'),
             ])->defaultSort('created_at', 'desc')->striped()
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('Approve Withdraw')
+                    ->action(function (Withdraw $record) {
+                        if (!$record->is_approve) {
+
+                            // todo: add user balance assets
+                            $user = User::where('id', $record->user_id)->first();
+                            $user->money = $user->money - $record->withdraw_amount;
+                            $user->update();
+
+//                         //todo: record in Balance table
+                            $balance = new Balance();
+                            $balance->user_id = $record->user_id;
+                            $balance->latest_balance = $user->money;
+                            $balance->previous_balance = $user->money + $record->withdraw_amount;
+                            $balance->save();
+                            $record->is_approve = 1;
+                            $record->update();
+                            Notification::make()
+                                ->title('Approve Successfully!')
+                                ->success()
+                                ->send();
+                        }
+                    })
+                    ->requiresConfirmation()
+                    ->color('success'),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
