@@ -26,22 +26,24 @@ Route::controller(\App\Http\Controllers\API\AuthController::class)->group(functi
 //    Route::get('getProfile', 'userProfile');
 });
 Route::prefix('home')->controller(\App\Http\Controllers\API\HomePageController::class)->group(function () {
-    Route::get('getSlides', 'getSlide');
-    Route::get('getQuestCorridors', 'getQuestCorridor');
-    Route::get('getAnalogData', 'getAnalogData');
-    Route::get('getCooperatedFilms', 'getCooperatedFilm');
+    Route::get('get-slides', 'getSlide');
+    Route::get('get-quest-corridors', 'getQuestCorridor');
+    Route::get('get-analogData', 'getAnalogData');
+    Route::get('get-cooperated-films', 'getCooperatedFilm');
 });
 Route::prefix('detail-page')->controller(\App\Http\Controllers\API\DetailPageController::class)->group(function () {
-    Route::get('getNewArrival', 'getNewArrival');
-    Route::get('getCasts', 'getCast');
-    Route::get('getBlockbusterHistories', 'getBlockbusterHistory');
-    Route::get('getInvestments', 'getInvestment');
+    Route::get('get-new-arrival', 'getNewArrival');
+    Route::get('get-casts', 'getCast');
+    Route::get('get-blockbuster-histories', 'getBlockbusterHistory');
+    Route::get('get-investments', 'getInvestment');
 });
 Route::prefix('personal-account')->controller(\App\Http\Controllers\API\UserAccountController::class)->group(function () {
-    Route::get('getDeposits', 'getDeposit');
-    Route::post('addDeposit', 'storeDeposit');
-    Route::get('getWithdraws', 'getWithdraw');
-    Route::post('addWithdraw', 'storeWithdraw');
-    Route::get('getBankCards', 'getBankCardManagement');
-    Route::post('addBankCard', 'storeBankCardManagement');
+    Route::get('get-deposits', 'getDeposit');
+    Route::post('add-deposit', 'storeDeposit');
+    Route::get('get-withdraws', 'getWithdraw');
+    Route::post('add-withdraw', 'storeWithdraw');
+    Route::get('get-bank-cards', 'getBankCardManagement');
+    Route::post('add-bank-card', 'storeBankCardManagement');
+    Route::post('change-password', 'changePassword');
+    Route::post('set-withdraw-password', 'withdrawPassword');
 });

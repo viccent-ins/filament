@@ -22,33 +22,33 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $superAdmin = User::factory()->create([
-            'name' => 'Super Admin',
+            'username' => 'Super Admin',
+            'mobile' => '0001112222',
             'email' => 'superadmin@gmail.com',
             'nick_name' => 'super-admin',
-            'phone' => '0001112222',
             'referral' => Str::random(10),
             'date_of_birth' => '1990-08-20',
         ]);
 
         $admin = User::factory()->create([
-            'name' => 'Admin',
+            'username' => 'Admin',
+            'mobile' => '111222333',
             'email' => 'admin@gmail.com',
             'nick_name' => 'admin',
-            'phone' => '111222333',
             'referral' => Str::random(10),
             'date_of_birth' => '1990-08-20',
         ]);
-        $moderate = User::factory()->create([
-            'name' => 'Moderate',
+        $moderator = User::factory()->create([
+            'username' => 'Moderator',
+            'mobile' => '222333444',
             'email' => 'moderate@gmail.com',
             'nick_name' => 'moderator',
-            'phone' => '222333444',
             'referral' => Str::random(10),
             'date_of_birth' => '1990-08-20',
         ]);
         $superAdmin->assignRole(Role::create(['name' => 'Super Admin']));
         $admin->assignRole(Role::create(['name' => 'Admin']));
-        $moderate->assignRole(Role::create(['name' => 'Moderate']));
+        $moderator->assignRole(Role::create(['name' => 'Moderator']));
 
 //todo  Seed roles
     }
