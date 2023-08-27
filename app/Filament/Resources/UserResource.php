@@ -55,7 +55,9 @@ class UserResource extends Resource
                             ->options([
                                 0 => 'Normal',
                                 1 => 'Hidden',
-                            ]),
+                            ])
+                            ->default(0)
+                        ,
                     ])->columns(2)
             ]);
     }
