@@ -45,14 +45,21 @@ class AuthController extends BaseResponseController
             'nick_name' => 'required|string|max:255',
             'mobile' => 'required|string|max:255',
             'password' => 'required|string|min:6|confirmed',
+            'incode' => 'required|min:6|max:8',
         ]);
+        $pid = User::where('incode', $request->incode)->value('id');
+        $randomNumber = date('d') . random_int(100000, 900999);
+        if (empty($pid)) {
+            return $this->responseFail('Referral code not found!');
+        }
         $user = User::create([
             'username' => $request->username,
             'nick_name' => $request->nick_name,
             'mobile' => $request->mobile,
             'password' => bcrypt($request->password),
             'email' => $request->email ?? '',
-            'referral' => $request->referral_code,
+            'incode' => (int)$randomNumber,
+            'pid' => $pid,
             'status' => 0,
         ]);
         $token = $user->createToken('authToken');

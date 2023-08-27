@@ -17,11 +17,12 @@ return new class extends Migration
             $table->string('mobile')->nullable();
             $table->string('password');
             $table->string('email')->nullable();
+            $table->mediumInteger('pid')->default(0);
             $table->string('withdraw_password')->nullable();
             $table->string('name')->nullable();
             $table->string('nick_name')->nullable();
-            $table->string('referral')->nullable();
             $table->decimal('money', 10, 2)->default(0);
+            $table->integer('incode')->default(0);
             $table->string('date_of_birth')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('status')->default(0);

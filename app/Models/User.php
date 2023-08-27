@@ -27,7 +27,8 @@ class User extends Authenticatable
         'email',
         'name',
         'date_of_birth',
-        'referral',
+        'incode',
+        'pid',
         'role',
         'withdraw_password',
     ];
