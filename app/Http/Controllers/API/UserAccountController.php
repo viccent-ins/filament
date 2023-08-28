@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseResponseController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Children;
 use App\Models\BankCardManagement;
 use App\Models\Deposit;
 use App\Models\User;
@@ -11,13 +12,16 @@ use App\Models\Withdraw;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserAccountController extends BaseResponseController
 {
-    public function __construct() {
-       $this->middleware('auth:api');
+    public function __construct()
+    {
+        $this->middleware('auth:api');
     }
+
     public function getDeposit(): Response
     {
         $deposits = Deposit::orderBy('created_at', 'desc')
@@ -28,6 +32,7 @@ class UserAccountController extends BaseResponseController
         ];
         return $this->responseSuccess($Result);
     }
+
     public function storeDeposit(Request $request): Response
     {
         $request->validate([
@@ -48,6 +53,7 @@ class UserAccountController extends BaseResponseController
         ];
         return $this->responseSuccess($Result);
     }
+
     public function getWithdraw(): Response
     {
         $withdraws = Withdraw::orderBy('created_at', 'desc')
@@ -58,6 +64,7 @@ class UserAccountController extends BaseResponseController
         ];
         return $this->responseSuccess($Result);
     }
+
     public function storeWithdraw(Request $request): Response
     {
         $request->validate([
@@ -78,6 +85,7 @@ class UserAccountController extends BaseResponseController
         ];
         return $this->responseSuccess($Result);
     }
+
     public function getBankCardManagement(): Response
     {
         $bankCards = BankCardManagement::orderBy('created_at', 'desc')
@@ -88,6 +96,7 @@ class UserAccountController extends BaseResponseController
         ];
         return $this->responseSuccess($Result);
     }
+
     public function storeBankCardManagement(Request $request): Response
     {
         $request->validate([
@@ -110,12 +119,14 @@ class UserAccountController extends BaseResponseController
         ];
         return $this->responseSuccess($Result);
     }
-    public function changePassword (Request $request): Response {
+
+    public function changePassword(Request $request): Response
+    {
         $request->validate([
             'new_password' => 'required|string|min:8|max:16',
         ]);
         #Update the Password
-        User::whereId(auth()->user()->id)->update([
+        User::whereId($this->getAuthId())->update([
             'password' => Hash::make($request->new_password)
         ]);
         $Result = [
@@ -123,7 +134,8 @@ class UserAccountController extends BaseResponseController
         ];
         return $this->responseSuccess($Result);
     }
-    public function withdrawPassword (Request $request): Response {
+    public function withdrawPassword(Request $request): Response
+    {
         $request->validate([
             'withdraw_password' => 'required|string|min:4|max:4',
         ]);
@@ -136,4 +148,46 @@ class UserAccountController extends BaseResponseController
         ];
         return $this->responseSuccess($Result);
     }
+    public $arr = [];
+    public function getChildren(): Response
+    {
+        $users = User::all();
+        $children = new Children();
+        $data = $children->init($users);
+        $result = $data->getChildren($this->getAuthId(),true);
+        $Result = [
+            'Referral' => $result,
+            'SumMoney' => $children->getSumMoney(),
+            'TotalDeposit' => $children->getTotalDepositOrWithdraw($result, 'deposit'),
+            'TotalWithdraw' => $children->getTotalDepositOrWithdraw($result, 'withdraw'),
+        ];
+        return $this->responseSuccess($Result);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

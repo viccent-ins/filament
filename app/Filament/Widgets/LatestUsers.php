@@ -32,15 +32,23 @@ class LatestUsers extends BaseWidget
     protected function getTableColumns(): array
     {
         return [
-            TextColumn::make('name')
+            TextColumn::make('id')
+                ->toggleable(),
+            TextColumn::make('pid')
+                ->toggleable(),
+            TextColumn::make('username')
                 ->toggleable()
                 ->searchable()
                 ->sortable(),
             TextColumn::make('email')
                 ->toggleable(),
-            TextColumn::make('phone')
+            TextColumn::make('mobile')
                 ->toggleable(),
-            TextColumn::make('referral')
+            TextColumn::make('incode')
+                ->toggleable(),
+            TextColumn::make('pid')
+                ->toggleable(),
+            TextColumn::make('created_at')
                 ->toggleable(),
         ];
     }

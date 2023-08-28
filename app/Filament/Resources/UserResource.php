@@ -71,6 +71,8 @@ class UserResource extends Resource
                 TextColumn::make('nick_name')->searchable(),
                 TextColumn::make('mobile')->searchable(),
                 TextColumn::make('created_at')->label('JoinDate'),
+                TextColumn::make('pid'),
+                TextColumn::make('incode'),
                 TextColumn::make('money')
                     ->color('success')
                     ->money('usd'),

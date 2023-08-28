@@ -69,6 +69,7 @@ class WithdrawResource extends Resource
                             $balance = new Balance();
                             $balance->user_id = $record->user_id;
                             $balance->latest_balance = $user->money;
+                            $balance->type = 'withdraw';
                             $balance->previous_balance = $user->money + $record->withdraw_amount;
                             $balance->save();
                             $record->is_approve = 1;

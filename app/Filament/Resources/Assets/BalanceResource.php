@@ -43,6 +43,10 @@ class BalanceResource extends Resource
                     ->money('usd')
                     ->color('info')
                 ,
+                TextColumn::make('type')
+                    ->badge()
+                    ->color('warning')
+                ,
                 TextColumn::make('created_at')->date('d-M-Y h:i:s a'),
             ])->defaultSort('created_at', 'desc')
             ->filters([

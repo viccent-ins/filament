@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $superAdmin = User::factory()->create([
-            'username' => 'Super Admin',
+            'username' => 'superadmin',
             'mobile' => '0001112222',
             'email' => 'superadmin@gmail.com',
             'nick_name' => 'super-admin',
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $admin = User::factory()->create([
-            'username' => 'Admin',
+            'username' => 'admin',
             'mobile' => '111222333',
             'email' => 'admin@gmail.com',
             'nick_name' => 'admin',
@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             'date_of_birth' => '1990-08-20',
         ]);
         $moderator = User::factory()->create([
-            'username' => 'Moderator',
+            'username' => 'moderator',
             'mobile' => '222333444',
             'email' => 'moderate@gmail.com',
             'nick_name' => 'moderator',

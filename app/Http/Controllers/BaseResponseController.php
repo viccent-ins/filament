@@ -11,12 +11,13 @@ class BaseResponseController extends Controller
     {
         $response = [
             'ErrorCode' => $errorCode,
+            'Message' => 'Success',
             'Data' => $result,
         ];
         return Response($response, $status);
     }
 
-    public function responseFail($errorMessage, $errorCode = 1, $status = 200): Response
+    public function responseFail($errorMessage = 'Failed', $errorCode = 1, $status = 200): Response
     {
         $response = [
             'Message' => $errorMessage,
@@ -34,6 +35,9 @@ class BaseResponseController extends Controller
     }
     public function createdBy() {
         return auth()->user()->name;
+    }
+    public function getUser() {
+        return auth()->user();
     }
     public function getAuthId() {
         return auth()->user()->id;
