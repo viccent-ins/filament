@@ -160,6 +160,8 @@ class UserAccountController extends BaseResponseController
             'SumMoney' => $children->getSumMoney(),
             'TotalDeposit' => $children->getTotalDepositOrWithdraw($result, 'deposit'),
             'TotalWithdraw' => $children->getTotalDepositOrWithdraw($result, 'withdraw'),
+            'TotalTeam' => count($result),
+            'SystemId' => $this->getUser()->incode,
         ];
         return $this->responseSuccess($Result);
     }
