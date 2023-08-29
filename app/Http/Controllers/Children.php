@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class Children
 {
     public $arr = [];
-
+    public function __construct($arrays = [])
+    {
+        $this->arr = $arrays;
+    }
     public function getChildren($myid, $withself = false)
     {
         $newarr = [];
@@ -24,18 +29,15 @@ class Children
         }
         return $newarr;
     }
-
-    public function init($arr = [])
-    {
-        $this->arr = $arr;
-        return $this;
-    }
-
+//    public function init($arr = [])
+//    {
+//        $this->arr = $arr;
+//        return $this;
+//    }
     public function getSumMoney()
     {
         return $this->arr->sum('money');
     }
-
     public function getTotalDepositOrWithdraw($result = [], $cash = '')
     {
         try {
@@ -62,5 +64,30 @@ class Children
         }
 
         return $total_balance;
+    }
+    public function getNewRegister($arrays=[]) {
+        try {
+            $data = [];
+            foreach ($arrays as $k => $value) {
+                $data[] = $value;
+                $data[$k]['joindate'] = explode(' ', $value->created_at)[0];
+            }
+            $currentTime = Carbon::now()->toDateString();
+            $filterData = collect($data)->where('joindate', $currentTime)->all();
+        } catch (\Exception $e) {
+            // do task when error
+            return $e->getMessage();
+        }
+        return ($filterData);
+    }
+    public function getActivety($arrays=[]) {
+        try {
+            $currentTime = Carbon::now()->toDateString();
+            $filterData = collect($arrays)->where('login_time', $currentTime)->all();
+        } catch (\Exception $e) {
+            // do task when error
+            return $e->getMessage();
+        }
+        return ($filterData);
     }
 }

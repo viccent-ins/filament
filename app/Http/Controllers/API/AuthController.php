@@ -27,6 +27,8 @@ class AuthController extends BaseResponseController
             $credentials = $request->only('username', 'password');
             Auth::attempt($credentials);
             $user = Auth::user();
+            $user->login_time = Carbon::now()->toDateString();
+            $user->update();
             if ($user == null) {
                 return $this->responseFail('username or password is incorrect');
             }

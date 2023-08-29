@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('withdraw_password')->nullable();
             $table->string('name')->nullable();
             $table->string('nick_name')->nullable();
+            $table->string('login_time')->nullable();
             $table->decimal('money', 10, 2)->default(0);
             $table->integer('incode')->default(0);
             $table->string('date_of_birth')->nullable();

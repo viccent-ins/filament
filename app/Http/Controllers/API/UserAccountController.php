@@ -152,9 +152,8 @@ class UserAccountController extends BaseResponseController
     public function getChildren(): Response
     {
         $users = User::all();
-        $children = new Children();
-        $data = $children->init($users);
-        $result = $data->getChildren($this->getAuthId(),true);
+        $children = new Children($users);
+        $result = $children->getChildren($this->getAuthId(),true);
         $Result = [
             'Referral' => $result,
             'SumMoney' => $children->getSumMoney(),
@@ -162,10 +161,11 @@ class UserAccountController extends BaseResponseController
             'TotalWithdraw' => $children->getTotalDepositOrWithdraw($result, 'withdraw'),
             'TotalTeam' => count($result),
             'SystemId' => $this->getUser()->incode,
+            'NewRegister' => count($children->getNewRegister($result)),
+            'Activities' => count($children->getActivety($result)),
         ];
         return $this->responseSuccess($Result);
     }
-
 }
 
 
