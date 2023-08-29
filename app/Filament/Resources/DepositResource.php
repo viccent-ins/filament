@@ -34,7 +34,7 @@ class DepositResource extends Resource
                     Forms\Components\TextInput::make('deposit_amount')->required(),
                     Forms\Components\TextInput::make('deposit_bank'),
                     Select::make('user_id')->label('User Id')->default(1)
-                        ->relationship('users', empty('user') ? 'user' : 'nick_name')->preload()
+                        ->relationship('users', !empty('username') ? 'username' : 'nick_name')->preload()
                 ])
             ]);
     }
@@ -46,7 +46,7 @@ class DepositResource extends Resource
                 TextColumn::make('id'),
                 TextColumn::make('deposit_amount')->money('usd'),
                 TextColumn::make('deposit_bank'),
-                TextColumn::make('users.name')->label('Name'),
+                TextColumn::make('users.username')->label('Name'),
                 TextColumn::make('users.nick_name')->label('Nick Name'),
             ])->defaultSort('created_at', 'desc')->striped()
             ->filters([

@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
             ->sidebarCollapsibleOnDesktop()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Sky,
 //                'danger' => Color::Rose,
 //                'info' => Color::Blue,
 //                'primary' => Color::Indigo,

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class Children
+class Children extends BaseResponseController
 {
     public $arr = [];
     public function __construct($arrays = [])
@@ -65,10 +65,10 @@ class Children
 
         return $total_balance;
     }
-    public function getNewRegister($arrays=[]) {
+    public function getNewRegister() {
         try {
             $data = [];
-            foreach ($arrays as $k => $value) {
+            foreach ($this->arr as $k => $value) {
                 $data[] = $value;
                 $data[$k]['joindate'] = explode(' ', $value->created_at)[0];
             }
@@ -80,10 +80,10 @@ class Children
         }
         return ($filterData);
     }
-    public function getActivety($arrays=[]) {
+    public function getActivety() {
         try {
             $currentTime = Carbon::now()->toDateString();
-            $filterData = collect($arrays)->where('login_time', $currentTime)->all();
+            $filterData = collect($this->arr)->where('login_time', $currentTime)->all();
         } catch (\Exception $e) {
             // do task when error
             return $e->getMessage();

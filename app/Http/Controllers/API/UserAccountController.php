@@ -161,10 +161,28 @@ class UserAccountController extends BaseResponseController
             'TotalWithdraw' => $children->getTotalDepositOrWithdraw($result, 'withdraw'),
             'TotalTeam' => count($result),
             'SystemId' => $this->getUser()->incode,
-            'NewRegister' => count($children->getNewRegister($result)),
-            'Activities' => count($children->getActivety($result)),
+            'NewRegister' => count($children->getNewRegister()),
+            'Activities' => count($children->getActivety()),
+            'Level' => count($this->buildTree($result, $this->getAuthId())),
+            'Subordinates' => $this->buildTree($result, $this->getAuthId()),
         ];
         return $this->responseSuccess($Result);
+    }
+    protected function buildTree(array &$subordinates, $parentId) {
+
+        $branch = [];
+        foreach ($subordinates as &$subordinate) {
+            if ($subordinate['pid'] == $parentId) {
+                $children = $this->buildTree($subordinates, $subordinate['id']);
+                if ($children) {
+                    $subordinate['subordinates'] = $children;
+                }
+                $branch[] = $subordinate;
+                unset($subordinate);
+            }
+        }
+
+        return $branch;
     }
 }
 

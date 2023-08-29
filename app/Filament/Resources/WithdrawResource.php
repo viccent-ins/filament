@@ -37,7 +37,7 @@ class WithdrawResource extends Resource
                     Forms\Components\TextInput::make('withdraw_bank')->required(),
                     Select::make('user_id')
                         ->label('User Id')
-                        ->relationship('users', empty('user') ? 'user' : 'nick_name')->preload()
+                        ->relationship('users', !empty('username') ? 'username' : 'nick_name')->preload()
                 ])
             ]);
     }

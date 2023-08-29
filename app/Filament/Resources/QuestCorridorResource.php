@@ -45,6 +45,9 @@ class QuestCorridorResource extends Resource
                 TextColumn::make('id')->sortable(),
                 ImageColumn::make('image')->sortable(),
                 TextColumn::make('name')->sortable(),
+                TextColumn::make('price')
+                    ->money('usd')
+                    ->sortable(),
                 TextColumn::make('turn')->sortable(),
                 TextColumn::make('percentage')->sortable(),
                 TextColumn::make('created_at')->sortable(),
