@@ -26,10 +26,11 @@ class UserRechargeResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Card::make()->schema([
-                    Forms\Components\Select::make('user_id')->label('Username')
+                    Forms\Components\Select::make('user_id')
+                        ->label('Username')
                         ->relationship('users', !empty('username') ? 'username' : 'nick_name')
                         ->preload(),
-                    Forms\Components\TextInput::make('order_id')->label('Product Id'),
+                    Forms\Components\TextInput::make('order_id')->label('Order Id'),
                     TextInput::make('refusal_reason_remark')->maxLength(225),
                     Forms\Components\TextInput::make('order_status')->numeric(),
                     Forms\Components\TextInput::make('order_remark')->integer(),

@@ -47,4 +47,6 @@ Route::prefix('personal-account')->controller(\App\Http\Controllers\API\UserAcco
     Route::post('change-password', 'changePassword');
     Route::post('set-withdraw-password', 'withdrawPassword');
     Route::get('referrals', 'getChildren');
+    Route::get('get-user-recharges', 'getRecharge');
+    Route::post('add-user-recharge', 'userRecharge');
 });

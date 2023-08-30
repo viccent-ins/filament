@@ -8,6 +8,7 @@ use App\Http\Controllers\Children;
 use App\Models\BankCardManagement;
 use App\Models\Deposit;
 use App\Models\User;
+use App\Models\UserRecharge;
 use App\Models\Withdraw;
 use Exception;
 use Illuminate\Http\Request;
@@ -183,6 +184,45 @@ class UserAccountController extends BaseResponseController
         }
 
         return $branch;
+    }
+    public function getRecharge(): Response {
+        try {
+            $userRecharges = UserRecharge::orderBy('created_at', 'desc')
+                ->where('user_id', $this->getAuthId())
+                ->get();
+        } catch (Exception $e) {
+            return Response($e->getMessage());
+        }
+        $Result = [
+            'Recharge' => $userRecharges,
+        ];
+        return $this->responseSuccess($Result);
+    }
+    public function userRecharge(Request $request): Response {
+        $request->validate([
+           'user_id' => 'required',
+           'refusal_reason_remark' => 'required',
+           'order_status' => 'required',
+           'order_remark' => 'required',
+           'order_creation_time' => 'required',
+        ]);
+        $recharge = new UserRecharge();
+        try {
+            $recharge->user_id = $this->getAuthId();
+            $recharge->order_id = $request->order_id ?? null;
+            $recharge->refusal_reason_remark = $request->refusal_reason_remark;
+            $recharge->order_status = $request->order_status;
+            $recharge->order_remark = $request->order_remark;
+            $recharge->order_approval_time = $request->order_approval_time;
+            $recharge->order_creation_time = $request->order_creation_time ?? '';
+            $recharge->save();
+        } catch (Exception $e) {
+            return Response($e->getMessage());
+        }
+        $Result = [
+            'Recharges' => $recharge,
+        ];
+        return $this->responseSuccess($Result);
     }
 }
 
