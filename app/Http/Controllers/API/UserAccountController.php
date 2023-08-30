@@ -164,6 +164,7 @@ class UserAccountController extends BaseResponseController
             'SystemId' => $this->getUser()->incode,
             'NewRegister' => count($children->getNewRegister()),
             'Activities' => count($children->getActivety()),
+            'TeamTrading' => '',
             'Level' => count($this->buildTree($result, $this->getAuthId())),
             'Subordinates' => $this->buildTree($result, $this->getAuthId()),
         ];

@@ -31,7 +31,7 @@ class NewArrivalResource extends Resource
             ->schema([
                 Card::make()->schema([
                     Forms\Components\TextInput::make('title')->required(),
-                    Forms\Components\TextInput::make('start')->required()->minLength(1)->maxLength(5),
+                    Forms\Components\TextInput::make('star')->integer()->required()->minValue(1)->maxValue(5),
                     Forms\Components\DatePicker::make('date_arrival')->required(),
                     Forms\Components\TextInput::make('minute')->required()->minLength(1)->maxLength(3)->numeric(),
                     Forms\Components\RichEditor::make('summery'),
@@ -44,10 +44,10 @@ class NewArrivalResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')->searchable(),
-                TextColumn::make('start'),
+                TextColumn::make('star'),
                 TextColumn::make('date_arrival')->date(),
                 TextColumn::make('minute'),
-                TextColumn::make('summery')->wrap(),
+                TextColumn::make('summery')->limit(50),
                 TextColumn::make('created_at'),
             ])
             ->filters([
