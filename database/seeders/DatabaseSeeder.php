@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'mobile' => '0001112222',
             'email' => 'superadmin@gmail.com',
             'nick_name' => 'super-admin',
-            'referral' => Str::random(10),
+           'incode' => random_int(10000000, 99999999),
             'date_of_birth' => '1990-08-20',
         ]);
 
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'mobile' => '111222333',
             'email' => 'admin@gmail.com',
             'nick_name' => 'admin',
-            'referral' => Str::random(10),
+           'incode' => random_int(10000000, 99999999),
             'date_of_birth' => '1990-08-20',
         ]);
         $moderator = User::factory()->create([
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
             'mobile' => '222333444',
             'email' => 'moderate@gmail.com',
             'nick_name' => 'moderator',
-            'referral' => Str::random(10),
+            'incode' => random_int(10000000, 99999999),
             'date_of_birth' => '1990-08-20',
         ]);
         $superAdmin->assignRole(Role::create(['name' => 'Super Admin']));
