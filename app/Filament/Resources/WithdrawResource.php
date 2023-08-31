@@ -47,10 +47,10 @@ class WithdrawResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id'),
-                TextColumn::make('withdraw_amount')->money('usd'),
-                TextColumn::make('withdraw_bank'),
-                TextColumn::make('users.name')->label('Name'),
+                TextColumn::make('users.username')->label('Name'),
                 TextColumn::make('users.nick_name')->label('Nick Name'),
+                TextColumn::make('withdraw_bank')->badge()->color('gray'),
+                TextColumn::make('withdraw_amount')->money('usd')->color('primary'),
             ])->defaultSort('created_at', 'desc')->striped()
             ->filters([
                 //

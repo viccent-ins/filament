@@ -67,14 +67,16 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->searchable(),
+                TextColumn::make('pid'),
                 TextColumn::make('username')->searchable(),
                 TextColumn::make('nick_name')->searchable(),
+                TextColumn::make('date_of_birth'),
                 TextColumn::make('mobile')->searchable(),
                 TextColumn::make('created_at')->label('JoinDate'),
-                TextColumn::make('pid'),
                 TextColumn::make('incode'),
+                TextColumn::make('referral')->wrap()->limit(50),
                 TextColumn::make('money')
-                    ->color('success')
+                    ->color('primary')
                     ->money('usd'),
                 TextColumn::make('status')
                     ->formatStateUsing(fn (string $state): string => __($state == 0 ? 'Normal' : 'Hidden'))
@@ -83,8 +85,6 @@ class UserResource extends Resource
                         '0' => 'success',
                         '1' => 'danger',
                     }),
-                TextColumn::make('referral'),
-                TextColumn::make('date_of_birth'),
             ])
             ->filters([
                 //

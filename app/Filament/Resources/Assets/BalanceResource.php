@@ -37,15 +37,18 @@ class BalanceResource extends Resource
                 TextColumn::make('users.username'),
                 TextColumn::make('latest_balance')
                     ->money('usd')
-                    ->color('success')
+                    ->color('primary')
                 ,
                 TextColumn::make('previous_balance')
                     ->money('usd')
-                    ->color('info')
+                    ->color('warning')
                 ,
                 TextColumn::make('type')
                     ->badge()
-                    ->color('warning')
+                    ->color(fn (string $state): string => match ($state) {
+                        'withdraw' => 'danger',
+                        'deposit' => 'success',
+                    })
                 ,
                 TextColumn::make('created_at')->date('d-M-Y h:i:s a'),
             ])->defaultSort('created_at', 'desc')

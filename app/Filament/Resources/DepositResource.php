@@ -44,10 +44,10 @@ class DepositResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id'),
-                TextColumn::make('deposit_amount')->money('usd'),
-                TextColumn::make('deposit_bank'),
                 TextColumn::make('users.username')->label('Name'),
                 TextColumn::make('users.nick_name')->label('Nick Name'),
+                TextColumn::make('deposit_bank')->badge()->color('gray'),
+                TextColumn::make('deposit_amount')->color('primary')->money('usd'),
             ])->defaultSort('created_at', 'desc')->striped()
             ->filters([
                 //
