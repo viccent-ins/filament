@@ -31,22 +31,3 @@ Route::prefix('home')->controller(\App\Http\Controllers\API\HomePageController::
     Route::get('get-analogData', 'getAnalogData');
     Route::get('get-cooperated-films', 'getCooperatedFilm');
 });
-Route::prefix('detail-page')->controller(\App\Http\Controllers\API\DetailPageController::class)->group(function () {
-    Route::get('get-new-arrival', 'getNewArrival');
-    Route::get('get-casts', 'getCast');
-    Route::get('get-blockbuster-histories', 'getBlockbusterHistory');
-    Route::get('get-investments', 'getInvestment');
-});
-Route::prefix('personal-account')->controller(\App\Http\Controllers\API\UserAccountController::class)->group(function () {
-    Route::get('get-deposits', 'getDeposit');
-    Route::post('add-deposit', 'storeDeposit');
-    Route::get('get-withdraws', 'getWithdraw');
-    Route::post('add-withdraw', 'storeWithdraw');
-    Route::get('get-bank-cards', 'getBankCardManagement');
-    Route::post('add-bank-card', 'storeBankCardManagement');
-    Route::post('change-password', 'changePassword');
-    Route::post('set-withdraw-password', 'withdrawPassword');
-    Route::get('referrals', 'getChildren');
-    Route::get('get-user-recharges', 'getRecharge');
-    Route::post('add-user-recharge', 'userRecharge');
-});
