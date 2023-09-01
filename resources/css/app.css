@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary: rgb(64,158,255);
+    --success: rgb(103,194,58);
+    --warning: rgba(230, 162, 60, 0.89);
+    --danger: rgb(245,108,108);
+    --error: rgb(196,86,86);
+    --info: rgb(144,147,153);
+    --white: rgb(255,255,255);
+    --black: rgb(0,0,0);
+    --el-color-primary: var(--primary)!important;
+    --el-color-success: var(--success)!important;
+    --el-color-warning: var(--warning)!important;
+    --el-color-danger: var(--danger)!important;
+    --el-color-error: var(--error)!important;
+    --el-color-info: var(--info)!important;
+    --el-color-white: var(--white)!important;
+    --el-color-black: var(--black)!important;
+    --el-color-primary-dark-2: var(--el-color-info)!important;
+    --el-color-primary-light-3: var(--primary)!important;
+    --el-button-hover-border-color: var(--primary)!important;
+    --el-color-primary-light-5: var(--primary)
+}
+.primary {
+    color: var(--primary);
+}
+.success {
+    color: var(--success);
+}
+.warning {
+    color: var(--warning);
+}
+.info {
+    color: var(--info);
+}
+.danger {
+    color: var(--danger);
+}
+.white {
+    color: var(--white);
+}
+.black {
+    color: var(--black);
+}
+.bg-primary {
+    background-color: var(--primary);
+}
+.bg-success {
+    background-color: var(--success);
+}
+.bg-warning {
+    background-color: var(--warning);
+}
+.bg-info {
+    background-color: var(--info);
+}
+.bg-white {
+    background-color: var(--white);
+}
+.bg-black {
+    background-color: var(--black);
+}
+
+
