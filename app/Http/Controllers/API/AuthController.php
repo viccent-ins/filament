@@ -22,12 +22,12 @@ class AuthController extends BaseResponseController
         $request->validate([
             'user_address' => 'required',
         ]);
-        $w3Exist = User::where('id', $request->address)->first();
+        $w3Exist = User::where('user_address', $request->user_address)->first();
         try {
             if ($w3Exist) {
-                $credentials = $request->only('user_address');
-                Auth::attempt($credentials);
-                $user = Auth::user();
+                $w3Exist->login_time = Carbon::now();
+                $w3Exist->update();
+                $user = $w3Exist;
                 if ($user == null) {
                     return $this->responseFail('unAuthorize');
                 }
@@ -36,7 +36,7 @@ class AuthController extends BaseResponseController
                     'user_address' => $request->user_address,
                     'username' => $request->username ?? '',
                     'user_level' => $request->username ?? '',
-                    'login_time' => Carbon::now()->toDateString(),
+                    'login_time' => Carbon::now(),
                     'phone' => $request->phone ?? '',
                     'is_delete' => 0,
                 ]);
