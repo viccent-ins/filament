@@ -15,22 +15,31 @@ class AuthController extends BaseResponseController
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['w3Login', 'register']]);
     }
-    public function login(Request $request): Response
+    public function w3Login(Request $request): Response
     {
         $request->validate([
-            'username' => 'required',
-            'password' => 'required|string',
+            'address' => 'required',
         ]);
+        $w3Exist = User::where('id', $request->address)->first();
         try {
-            $credentials = $request->only('username', 'password');
-            Auth::attempt($credentials);
-            $user = Auth::user();
-            $user->login_time = Carbon::now()->toDateString();
-            $user->update();
-            if ($user == null) {
-                return $this->responseFail('username or password is incorrect');
+            if ($w3Exist) {
+                $credentials = $request->only('address');
+                Auth::attempt($credentials);
+                $user = Auth::user();
+                if ($user == null) {
+                    return $this->responseFail('unAuthorize');
+                }
+            } else {
+                $user = User::create([
+                    'address' => $request->address,
+                    'username' => $request->username,
+                    'user_level' => $request->username,
+                    'login_time' => $request->username,
+                    'phone' => $request->username,
+                    'is_delete' => 0,
+                ]);
             }
             $token = $user->createToken('authToken');
         } catch (Exception $e) {
@@ -39,45 +48,19 @@ class AuthController extends BaseResponseController
         }
         return $this->responseToken($token);
     }
-
-    public function register(Request $request): Response
-    {
-        $request->validate([
-            'username' => 'required|unique:users,username',
-            'nick_name' => 'required|string|max:255',
-            'mobile' => 'required|string|max:255',
-            'password' => 'required|string|min:6|confirmed',
-            'incode' => 'required|min:6|max:8',
-        ]);
-        $pid = User::where('incode', $request->incode)->value('id');
-        $randomNumber = date('d') . random_int(100000, 900999);
-        if (empty($pid)) {
-            return $this->responseFail('Referral code not found!');
-        }
-        $user = User::create([
-            'username' => $request->username,
-            'nick_name' => $request->nick_name,
-            'mobile' => $request->mobile,
-            'password' => bcrypt($request->password),
-            'email' => $request->email ?? '',
-            'incode' => (int)$randomNumber,
-            'pid' => $pid,
-            'status' => 0,
-        ]);
-        $token = $user->createToken('authToken');
-        return $this->responseToken($token);
-    }
-
     public function logout(): Response
     {
         $user = Auth::user()->token();
         $user->revoke();
         return $this->responseSuccess(null);
     }
-
     public function refresh(): Response
     {
-        return $this->responseToken(auth('api')->refresh());
+        $token = Auth::user()->token();
+        $token->revoke();
+        $newToken = $token->createToken('New Token Name');
+        return $this->responseToken($newToken);
+
     }
     protected function responseToken($token): Response
     {

@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(\App\Http\Controllers\API\AuthController::class)->group(function () {
-    Route::post('login', 'login');
+    Route::post('w3Login', 'w3Login');
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::get('refresh', 'refresh');
