@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
@@ -23,27 +24,30 @@ class DatabaseSeeder extends Seeder
 
         $superAdmin = User::factory()->create([
             'username' => 'superadmin',
-            'mobile' => '0001112222',
+            'phone' => '0001112222',
+            'user_address' => '0001112222',
             'email' => 'superadmin@gmail.com',
-            'nick_name' => 'super-admin',
-           'incode' => random_int(10000000, 99999999),
+            'user_level' => 'level1',
+            'login_time' => Carbon::now()->toDateString(),
             'date_of_birth' => '1990-08-20',
         ]);
 
         $admin = User::factory()->create([
             'username' => 'admin',
-            'mobile' => '111222333',
+            'phone' => '111222333',
+            'user_address' => '111222333',
             'email' => 'admin@gmail.com',
-            'nick_name' => 'admin',
-           'incode' => random_int(10000000, 99999999),
+            'user_level' => 'level2',
+            'login_time' => Carbon::now()->toDateString(),
             'date_of_birth' => '1990-08-20',
         ]);
         $moderator = User::factory()->create([
             'username' => 'moderator',
-            'mobile' => '222333444',
+            'phone' => '222333444',
+            'user_address' => '111222333',
             'email' => 'moderate@gmail.com',
-            'nick_name' => 'moderator',
-            'incode' => random_int(10000000, 99999999),
+            'user_level' => 'level3',
+            'login_time' => Carbon::now()->toDateString(),
             'date_of_birth' => '1990-08-20',
         ]);
         $superAdmin->assignRole(Role::create(['name' => 'Super Admin']));

@@ -17,7 +17,6 @@ export const useStores = defineStore('store', {
                 expires_in: 0,
             },
             auth: false,
-            server: 'http://127.0.0.1:8000/',
         }
     },
     actions: {

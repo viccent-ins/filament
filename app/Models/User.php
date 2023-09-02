@@ -18,16 +18,16 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'username',
-        'mobile',
-        'nick_name',
+        'user_address',
+        'phone',
         'password',
         'email',
         'name',
+        'user_level',
+        'login_time',
+        'is_delete',
         'date_of_birth',
-        'incode',
-        'pid',
         'role',
-        'withdraw_password',
     ];
 
     use HasApiTokens, HasFactory, Notifiable, HasRoles ;

@@ -1,8 +1,22 @@
 <template>
     <div>
         <div class="flex justify-center py-10 gap-5">
-             wallet address : {{ account }}
-            <el-button @click="login">Login</el-button>
+            <el-statistic :value="account[0] ? `Login time: ${date_time}` : 'Unauthorize'">
+                <template #title>
+                    <div style="display: inline-flex; align-items: center">
+                        <p class="text-xl">Monthly Active Users</p>
+                        <el-tooltip
+                            effect="dark"
+                            content="User login activity"
+                            placement="top"
+                        >
+                            <el-icon style="margin-left: 4px" :size="12">
+                                <Warning />
+                            </el-icon>
+                        </el-tooltip>
+                    </div>
+                </template>
+            </el-statistic>
         </div>
     </div>
 </template>
@@ -11,10 +25,15 @@
 import Web3Modal from "web3modal";
 import Web3 from "web3";
 import { ref, reactive, onUnmounted, onMounted } from 'vue';
-import { useApiBridge } from "../axios/axios";
+import { Warning } from '@element-plus/icons-vue'
+import { instance } from "../axios/axios";
+import { ElNotification } from "element-plus";
 let provider = null;
-const account = ref();
-
+const account = ref([]);
+const today = new Date();
+const date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+const date_time = date + ' ' + time;
 onMounted(() => {
     if (window.ethereum){
         init();
@@ -51,10 +70,26 @@ const init = async () => {
 };
 const login = async () => {
     const params = {
-        address: account.value[0],
-    }
-    // const response = await useApiBridge.post('w3Login', params);
-    // console.log(response);
+        user_address: account.value[0],
+    };
+    await instance.post('w3Login', params)
+        .then((res) => {
+          if (res.data) {
+              ElNotification({
+                  title: 'Success',
+                  message: 'Login successfully!',
+                  type: 'success',
+              });
+          }
+
+        }).catch((err) => {
+            ElNotification({
+                title: 'Error',
+                message: 'Unauthorize!',
+                type: 'error',
+            });
+            console.log(err);
+        });
 };
 
 </script>

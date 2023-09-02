@@ -20,12 +20,12 @@ class AuthController extends BaseResponseController
     public function w3Login(Request $request): Response
     {
         $request->validate([
-            'address' => 'required',
+            'user_address' => 'required',
         ]);
         $w3Exist = User::where('id', $request->address)->first();
         try {
             if ($w3Exist) {
-                $credentials = $request->only('address');
+                $credentials = $request->only('user_address');
                 Auth::attempt($credentials);
                 $user = Auth::user();
                 if ($user == null) {
@@ -33,11 +33,11 @@ class AuthController extends BaseResponseController
                 }
             } else {
                 $user = User::create([
-                    'address' => $request->address,
-                    'username' => $request->username,
-                    'user_level' => $request->username,
-                    'login_time' => $request->username,
-                    'phone' => $request->username,
+                    'user_address' => $request->user_address,
+                    'username' => $request->username ?? '',
+                    'user_level' => $request->username ?? '',
+                    'login_time' => Carbon::now()->toDateString(),
+                    'phone' => $request->phone ?? '',
                     'is_delete' => 0,
                 ]);
             }
