@@ -77,7 +77,10 @@ class AuthController extends BaseResponseController
 
     public function refresh(): Response
     {
-        return $this->responseToken(auth('api')->refresh());
+        $token = Auth::user()->token();
+        $token->revoke();
+        $newToken = $token->createToken('New Token Name');
+        return $this->responseToken($newToken);
     }
     protected function responseToken($token): Response
     {
