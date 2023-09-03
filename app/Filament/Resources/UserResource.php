@@ -74,7 +74,7 @@ class UserResource extends Resource
                 TextColumn::make('date_of_birth'),
                 TextColumn::make('user_address')->wrap()->limit(50),
                 TextColumn::make('email'),
-                TextColumn::make('user_level'),
+                TextColumn::make('user_level')->limit(40),
                 TextColumn::make('login_time')->dateTime('Y-m-d H:i'),
                 TextColumn::make('created_at')->label('JoinDate'),
                 TextColumn::make('date_of_birth')->date('Y-m-d'),

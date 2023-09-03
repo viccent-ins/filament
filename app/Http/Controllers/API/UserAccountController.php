@@ -87,40 +87,6 @@ class UserAccountController extends BaseResponseController
         return $this->responseSuccess($Result);
     }
 
-    public function getBankCardManagement(): Response
-    {
-        $bankCards = BankCardManagement::orderBy('created_at', 'desc')
-            ->where('user_id', $this->getAuthId())
-            ->get();
-        $Result = [
-            'BankCardManagements' => $bankCards,
-        ];
-        return $this->responseSuccess($Result);
-    }
-
-    public function storeBankCardManagement(Request $request): Response
-    {
-        $request->validate([
-            'card_name' => 'required',
-            'card_address' => 'required',
-        ]);
-        $bank = new BankCardManagement();
-        try {
-            $bank->user_id = $this->getAuthId();
-            $bank->card_name = $request->card_name;
-            $bank->card_address = $request->card_address;
-            $bank->card_address_2 = $request->card_address_2;
-            $bank->others = $request->others;
-            $bank->save();
-        } catch (Exception $e) {
-            return Response($e->getMessage());
-        }
-        $Result = [
-            'BankCardManagement' => $bank,
-        ];
-        return $this->responseSuccess($Result);
-    }
-
     public function changePassword(Request $request): Response
     {
         $request->validate([
