@@ -72,7 +72,7 @@ const login = async () => {
     const params = {
         user_address: account.value[0],
     };
-    await instance.post('w3Login', params)
+    await instance.post('w3login', params)
         .then((res) => {
           if (res.data) {
               ElNotification({

@@ -2,25 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\NotificationResource\Pages;
-use App\Filament\Resources\NotificationResource\RelationManagers;
-use App\Models\Notification;
+use App\Filament\Resources\ExchangeResource\Pages;
+use App\Filament\Resources\ExchangeResource\RelationManagers;
+use App\Models\Exchange;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class NotificationResource extends Resource
+class ExchangeResource extends Resource
 {
-    protected static ?string $model = Notification::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $model = Exchange::class;
     protected static ?string $navigationGroup = 'User Information';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
@@ -28,12 +26,8 @@ class NotificationResource extends Resource
             ->schema([
                 Forms\Components\Card::make()
                 ->schema([
-                    Forms\Components\TextInput::make('title')->required(),
-                    Forms\Components\TextInput::make('content')->required(),
-                    Forms\Components\Select::make('lang')->options([
-                        'en' => 'English',
-                        'zh' => 'Chinese',
-                    ]),
+                    Forms\Components\TextInput::make('eth_amount')->required(),
+                    Forms\Components\TextInput::make('usdt_receive_amount')->required()
                 ])->columns(2)
             ]);
     }
@@ -42,11 +36,8 @@ class NotificationResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
-                TextColumn::make('title')->color('warning'),
-                TextColumn::make('content'),
-                TextColumn::make('created_at'),
-            ])->defaultSort('created_at', 'desc')
+                Tables\Columns\TextColumn::make('')
+            ])
             ->filters([
                 //
             ])
@@ -73,9 +64,9 @@ class NotificationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListNotifications::route('/'),
-//            'create' => Pages\CreateNotification::route('/create'),
-//            'edit' => Pages\EditNotification::route('/{record}/edit'),
+            'index' => Pages\ListExchanges::route('/'),
+//            'create' => Pages\CreateExchange::route('/create'),
+//            'edit' => Pages\EditExchange::route('/{record}/edit'),
         ];
     }
 }
