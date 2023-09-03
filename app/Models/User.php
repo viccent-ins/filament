@@ -24,10 +24,22 @@ class User extends Authenticatable
         'email',
         'name',
         'user_level',
+        'score',
+        'invite_code',
+        'score',
         'login_time',
         'is_delete',
         'date_of_birth',
         'role',
+        'eth_freeze_amount',
+        'eth_auth_amount',
+        'eth_available_quota',
+        'usdt_cumulative',
+        'usdt_freezing',
+        'usdt_USDT',
+        'eth_cumulative_income',
+        'eth_today_income',
+        'eth_convertible',
     ];
 
     use HasApiTokens, HasFactory, Notifiable, HasRoles ;

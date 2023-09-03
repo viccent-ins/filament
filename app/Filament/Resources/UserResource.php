@@ -5,6 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
@@ -32,32 +35,31 @@ class UserResource extends Resource
                         TextInput::make('username')
                             ->required()
                             ->maxLength(225),
-                        TextInput::make('nick_name')
-                            ->required()
+                        TextInput::make('name')
                             ->maxLength(225),
                         TextInput::make('password')
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             ->dehydrated(fn ($state) => filled($state))
                             ->required(fn (Page $livewire) => $livewire instanceof  Pages\CreateUser)->password(),
-                        TextInput::make('referral')
+                        TextInput::make('phone')->numeric()
                             ->maxLength(225),
-                        TextInput::make('mobile')->numeric()
-                            ->maxLength(225),
-                        Select::make('role')
-                            ->multiple()
-                            ->relationship('roles', 'name')->preload(),
-                        TextInput::make('money')
-                            ->numeric()
-                            ->maxLength(225),
-                        Radio::make('status')
-                            ->required()
-                            ->columnSpan(2)
-                            ->options([
-                                0 => 'Normal',
-                                1 => 'Hidden',
-                            ])
-                            ->default(0)
-                        ,
+                        TextInput::make('user_address'),
+                        TextInput::make('email')->unique(ignoreRecord: true),
+                        TextInput::make('user_level'),
+                        DatePicker::make('date_of_birth')->format('Y-m-d'),
+                        DateTimePicker::make('login_time'),
+                        TextInput::make('score')->numeric(),
+                        TextInput::make('invite_code')->unique(ignoreRecord: true)->integer()->minLength(6)->maxLength(10)->required(),
+                        TextInput::make('eth_auth_amount')->integer()->default(0),
+                        TextInput::make('eth_freeze_amount')->integer()->default(0),
+                        TextInput::make('eth_available_quota')->integer()->default(0),
+                        TextInput::make('usdt_cumulative')->integer()->default(0),
+                        TextInput::make('usdt_freezing')->integer()->default(0),
+                        TextInput::make('usdt_USDT')->integer()->default(0),
+                        TextInput::make('eth_cumulative_income')->integer()->default(0),
+                        TextInput::make('eth_today_income')->integer()->default(0),
+                        TextInput::make('eth_convertible')->integer()->default(0),
+
                     ])->columns(2)
             ]);
     }
@@ -67,24 +69,26 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->searchable(),
-                TextColumn::make('pid'),
                 TextColumn::make('username')->searchable(),
-                TextColumn::make('nick_name')->searchable(),
+                TextColumn::make('phone')->searchable(),
                 TextColumn::make('date_of_birth'),
-                TextColumn::make('mobile')->searchable(),
+                TextColumn::make('user_address')->wrap()->limit(50),
+                TextColumn::make('email'),
+                TextColumn::make('user_level'),
+                TextColumn::make('login_time')->dateTime('Y-m-d H:i'),
                 TextColumn::make('created_at')->label('JoinDate'),
-                TextColumn::make('incode'),
-                TextColumn::make('referral')->wrap()->limit(50),
-                TextColumn::make('money')
-                    ->color('primary')
-                    ->money('usd'),
-                TextColumn::make('status')
-                    ->formatStateUsing(fn (string $state): string => __($state == 0 ? 'Normal' : 'Hidden'))
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        '0' => 'success',
-                        '1' => 'danger',
-                    }),
+                TextColumn::make('date_of_birth')->date('Y-m-d'),
+                TextColumn::make('score'),
+                TextColumn::make('invite_code'),
+                TextColumn::make('eth_auth_amount')->money('usd'),
+                TextColumn::make('eth_freeze_amount')->money('usd'),
+                TextColumn::make('eth_available_quota')->money('usd'),
+                TextColumn::make('usdt_cumulative')->money('usd'),
+                TextColumn::make('usdt_USDT')->money('usd'),
+                TextColumn::make('eth_cumulative_income')->money('usd'),
+                TextColumn::make('eth_today_income')->money('usd'),
+                TextColumn::make('eth_convertible')->money('usd'),
+                TextColumn::make('email_verified_at'),
             ])
             ->filters([
                 //
