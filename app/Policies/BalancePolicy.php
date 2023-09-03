@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Assets\Balance;
+use App\Models\Balance;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 

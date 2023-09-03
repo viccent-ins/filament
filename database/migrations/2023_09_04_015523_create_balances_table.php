@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('withdraws', function (Blueprint $table) {
+        Schema::create('balances', function (Blueprint $table) {
             $table->id();
-            $table->decimal('withdraw_amount', 10, 2)->nullable();
-            $table->string('withdraw_bank')->nullable();
-            $table->boolean('is_approve')->default(false);
+            $table->decimal('usdt_amount', 10,2);
+            $table->decimal('usdt_prev_balance', 10, 2);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('approve_by');
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('withdraws');
+        Schema::dropIfExists('balances');
     }
 };

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Children;
 use App\Models\BankCardManagement;
 use App\Models\Deposit;
+use App\Models\Exchange;
 use App\Models\User;
 use App\Models\UserRecharge;
 use App\Models\Withdraw;
@@ -66,11 +67,10 @@ class UserAccountController extends BaseResponseController
         return $this->responseSuccess($Result);
     }
 
-    public function storeWithdraw(Request $request): Response
+    public function addWithdraw(Request $request): Response
     {
         $request->validate([
             'withdraw_amount' => 'required',
-            'withdraw_bank' => 'required',
         ]);
         $withdraw = new Withdraw();
         try {
@@ -152,42 +152,32 @@ class UserAccountController extends BaseResponseController
 
         return $branch;
     }
-    public function getRecharge(): Response {
+    public function addExchange(Request $request): Response {
+        $request->validate([
+           'amount_eth' => 'required',
+           'amount_usd_received' => 'required',
+        ]);
         try {
-            $userRecharges = UserRecharge::orderBy('created_at', 'desc')
-                ->where('user_id', $this->getAuthId())
-                ->get();
+            $exchange = new Exchange();
+            $exchange->user_id = $this->getAuthId();
+            $exchange->amount_eth = $request->amount_eth;
+            $exchange->amount_usd_received = $request->amount_usd_received;
+            $exchange->save();
         } catch (Exception $e) {
             return Response($e->getMessage());
         }
         $Result = [
-            'Recharge' => $userRecharges,
+            'Exchange' => $exchange,
         ];
         return $this->responseSuccess($Result);
     }
-    public function userRecharge(Request $request): Response {
-        $request->validate([
-           'user_id' => 'required',
-           'refusal_reason_remark' => 'required',
-           'order_status' => 'required',
-           'order_remark' => 'required',
-           'order_creation_time' => 'required',
-        ]);
-        $recharge = new UserRecharge();
-        try {
-            $recharge->user_id = $this->getAuthId();
-            $recharge->order_id = $request->order_id ?? null;
-            $recharge->refusal_reason_remark = $request->refusal_reason_remark;
-            $recharge->order_status = $request->order_status;
-            $recharge->order_remark = $request->order_remark;
-            $recharge->order_approval_time = $request->order_approval_time;
-            $recharge->order_creation_time = $request->order_creation_time ?? '';
-            $recharge->save();
-        } catch (Exception $e) {
-            return Response($e->getMessage());
-        }
+    public function getExchange(): Response {
+
+        $exchange = Exchange::orderBy('created_at', 'desc')
+            ->where('user_id', $this->getAuthId())
+            ->get();
         $Result = [
-            'Recharges' => $recharge,
+            'Exchanges' => $exchange,
         ];
         return $this->responseSuccess($Result);
     }

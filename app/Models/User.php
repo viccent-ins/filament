@@ -79,4 +79,7 @@ class User extends Authenticatable
     public function assets(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function balances(): BelongsTo {
+        return $this->belongsTo(Deposit::class, 'user_id');
+    }
 }

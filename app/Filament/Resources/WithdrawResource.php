@@ -4,9 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\WithdrawalResource\Pages;
 use App\Filament\Resources\WithdrawalResource\RelationManagers;
-use App\Models\Assets\Balance;
-use App\Models\Assets\Profit;
-use App\Models\Deposit;
+use App\Models\Balance;
 use App\Models\User;
 use App\Models\Withdraw;
 use Filament\Forms;
@@ -37,7 +35,7 @@ class WithdrawResource extends Resource
                     Forms\Components\TextInput::make('withdraw_bank')->required(),
                     Select::make('user_id')
                         ->label('User Id')
-                        ->relationship('users', !empty('username') ? 'username' : 'nick_name')->preload()
+                        ->relationship('users', !empty('username') ? 'username' : 'name')->preload()
                 ])
             ]);
     }
@@ -47,8 +45,7 @@ class WithdrawResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id'),
-                TextColumn::make('users.username')->label('Name'),
-                TextColumn::make('users.nick_name')->label('Nick Name'),
+                TextColumn::make('users.username')->label('username'),
                 TextColumn::make('withdraw_bank')->badge()->color('gray'),
                 TextColumn::make('withdraw_amount')->money('usd')->color('primary'),
             ])->defaultSort('created_at', 'desc')->striped()
@@ -62,15 +59,16 @@ class WithdrawResource extends Resource
 
                             // todo: add user balance assets
                             $user = User::where('id', $record->user_id)->first();
-                            $user->money = $user->money - $record->withdraw_amount;
+                            $user->usdt_USDT = $user->usdt_USDT - $record->withdraw_amount;
                             $user->update();
 
 //                         //todo: record in Balance table
                             $balance = new Balance();
                             $balance->user_id = $record->user_id;
-                            $balance->latest_balance = $user->money;
+                            $balance->usdt_amount = $record->withdraw_amount;
+                            $balance->usdt_prev_balance = $user->usdt_USDT;
+                            $balance->approve_by = auth()->user()->username;
                             $balance->type = 'withdraw';
-                            $balance->previous_balance = $user->money + $record->withdraw_amount;
                             $balance->save();
                             $record->is_approve = 1;
                             $record->update();
