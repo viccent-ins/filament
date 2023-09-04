@@ -49,6 +49,7 @@ class WithdrawResource extends Resource
                 TextColumn::make('users.username')->label('username'),
                 TextColumn::make('withdraw_bank')->badge()->color('gray'),
                 TextColumn::make('withdraw_amount')->money('usd')->color('primary'),
+                Tables\Columns\TextColumn::make('created_at')->date('Y-m-d H:i:s'),
             ])->striped()
             ->filters([
                 //

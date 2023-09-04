@@ -32,6 +32,10 @@ class AuthController extends BaseResponseController
                     return $this->responseFail('unAuthorize');
                 }
             } else {
+                $randomNumber = date('d') . random_int(100000, 999999);
+                if ($request->invite_code) {
+                    $pid = User::where('invite_code', $request->invite_code)->value('id');
+                }
                 $user = User::create([
                     'user_address' => $request->user_address,
                     'username' => $request->username ?? '',
@@ -39,6 +43,9 @@ class AuthController extends BaseResponseController
                     'login_time' => Carbon::now(),
                     'phone' => $request->phone ?? '',
                     'is_delete' => 0,
+                    'invite_code' => $randomNumber,
+                    'pid' => $pid ?? 0,
+
                 ]);
             }
             $token = $user->createToken('authToken');
