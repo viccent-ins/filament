@@ -26,8 +26,11 @@ class ExchangeResource extends Resource
             ->schema([
                 Forms\Components\Card::make()
                 ->schema([
-                    Forms\Components\TextInput::make('eth_amount')->required(),
-                    Forms\Components\TextInput::make('usdt_receive_amount')->required()
+                    Forms\Components\TextInput::make('amount_eth')->required(),
+                    Forms\Components\TextInput::make('amount_usd_received')->required(),
+                    Forms\Components\Select::make('user_id')
+                        ->relationship('users', !empty('username') ? 'username' : ' ')->preload()
+                        ->required(),
                 ])->columns(2)
             ]);
     }
@@ -36,8 +39,11 @@ class ExchangeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('')
-            ])
+                Tables\Columns\TextColumn::make('id'),
+                 Tables\Columns\TextColumn::make('users.username'),
+                 Tables\Columns\TextColumn::make('amount_eth'),
+                Tables\Columns\TextColumn::make('amount_usd_received'),
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
