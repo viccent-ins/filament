@@ -3,18 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseResponseController;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Children;
-use App\Models\BankCardManagement;
 use App\Models\Deposit;
 use App\Models\Exchange;
 use App\Models\User;
-use App\Models\UserRecharge;
 use App\Models\Withdraw;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserAccountController extends BaseResponseController
@@ -23,7 +19,6 @@ class UserAccountController extends BaseResponseController
     {
         $this->middleware('auth:api');
     }
-
     public function getDeposit(): Response
     {
         $deposits = Deposit::orderBy('created_at', 'desc')
@@ -62,7 +57,7 @@ class UserAccountController extends BaseResponseController
             ->where('user_id', $this->getAuthId())
             ->get();
         $Result = [
-            'Withdraws' => $withdraws,
+            'WithdrawHistories' => $withdraws,
         ];
         return $this->responseSuccess($Result);
     }
@@ -115,7 +110,6 @@ class UserAccountController extends BaseResponseController
         ];
         return $this->responseSuccess($Result);
     }
-    public $arr = [];
     public function getChildren(): Response
     {
         $users = User::all();
