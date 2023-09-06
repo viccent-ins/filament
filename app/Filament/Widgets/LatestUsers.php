@@ -42,9 +42,9 @@ class LatestUsers extends BaseWidget
                 ->sortable(),
             TextColumn::make('email')
                 ->toggleable(),
-            TextColumn::make('mobile')
+            TextColumn::make('phone')
                 ->toggleable(),
-            TextColumn::make('incode')
+            TextColumn::make('invite_code')
                 ->toggleable(),
             TextColumn::make('pid')
                 ->toggleable(),
