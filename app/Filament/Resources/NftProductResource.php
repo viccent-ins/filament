@@ -30,10 +30,11 @@ class NftProductResource extends Resource
                         ->label('Art Category')
                         ->relationship('artCategories', 'art_level')
                         ->required(),
+                    Forms\Components\Select::make('user_id')
+                        ->label('User Name')
+                        ->relationship('users', 'username')
+                        ->required(),
                     Forms\Components\TextInput::make('nft_like')
-                        ->default(0)
-                        ->integer(),
-                    Forms\Components\TextInput::make('nft_love')
                         ->default(0)
                         ->integer(),
                     Forms\Components\TextInput::make('nft_price')
@@ -57,7 +58,8 @@ class NftProductResource extends Resource
                 Tables\Columns\TextColumn::make('nft_title')->searchable(),
                 Tables\Columns\TextColumn::make('nft_like'),
                 Tables\Columns\TextColumn::make('nft_love'),
-                Tables\Columns\TextColumn::make('nft_price'),
+                Tables\Columns\TextColumn::make('nft_price')->color('primary'),
+                Tables\Columns\TextColumn::make('nft_coin_type')->badge()->color('warning'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('Y-m-m H:i:s'),
             ])->defaultSort('created_at','desc')
             ->filters([

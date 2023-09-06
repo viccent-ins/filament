@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('exchange_rates', function (Blueprint $table) {
             $table->id();
             $table->integer('usd_currency')->default(null);
-            $table->decimal('crypto_currency_rate', 12, 6)->default(0);
+            $table->decimal('crypto_currency_rate', 16, 6)->default(0);
             $table->string('crypto_type')->default(null);
             $table->timestamps();
         });

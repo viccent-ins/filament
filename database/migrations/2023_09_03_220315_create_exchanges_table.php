@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('exchanges', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->decimal('amount_eth')->default(0);
+            $table->decimal('amount_eth', 16, 6)->default(0);
             $table->decimal('amount_usd_received')->default(0);
             $table->timestamps();
         });

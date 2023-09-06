@@ -67,9 +67,6 @@ class User extends Authenticatable
     {
         return $this->hasRole('admin');
     }
-    public function deposits(): BelongsTo {
-        return $this->belongsTo(Deposit::class, 'user_id');
-    }
     public function withdrawals(): BelongsTo {
         return $this->belongsTo(Withdraw::class,'user_id');
     }
@@ -79,7 +76,7 @@ class User extends Authenticatable
     public function assets(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function balances(): BelongsTo {
-        return $this->belongsTo(Deposit::class, 'user_id');
+    public function nftProducts(): HasMany {
+        return $this->hasMany(NftProduct::class, 'user_id');
     }
 }

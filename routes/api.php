@@ -45,8 +45,9 @@ Route::prefix('page-account')->controller(UserAccountController::class)->group(f
 
 Route::prefix('art-category')->controller(ArtCategoryController::class)->group(function () {
     Route::get('arts', 'getArt');
-    Route::post('arts/{id}', 'getArtByLevel');
+//    Route::post('arts', 'getArtByLevel');
 });
 Route::prefix('nft-product')->controller(NftProductController::class)->group(function () {
     Route::post('getProducts', 'getNftProduct');
+    Route::post('postNft', 'postNftProduct');
 });

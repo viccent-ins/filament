@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('nft_products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('art_id')->constrained('art_categories')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('nft_title');
             $table->integer('nft_like')->nullable();
-            $table->integer('nft_love')->nullable();
-            $table->decimal('nft_price', 12, 6);
+            $table->integer('nft_click')->default(0);
+            $table->decimal('nft_price', 16, 6);
             $table->string('nft_coin_type')->nullable();
             $table->string('nft_image')->nullable();
             $table->timestamps();

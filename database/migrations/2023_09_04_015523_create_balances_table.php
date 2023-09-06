@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('balances', function (Blueprint $table) {
             $table->id();
-            $table->decimal('usdt_amount', 10,2);
-            $table->decimal('usdt_prev_balance', 10, 2);
+            $table->decimal('usdt_amount', 16,2);
+            $table->decimal('usdt_prev_balance', 16, 2);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('approve_by');
             $table->string('type')->nullable();

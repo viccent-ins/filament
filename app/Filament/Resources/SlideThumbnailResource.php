@@ -28,7 +28,7 @@ class SlideThumbnailResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\TextInput::make('title')->required()->integer(),
+                    Forms\Components\TextInput::make('title')->required(),
                     Forms\Components\TextInput::make('content')->required(),
                     Forms\Components\Textarea::make('description')->required()->columnSpan(2),
                     Forms\Components\FileUpload::make('image')->required()->columnSpan(2),
@@ -40,8 +40,8 @@ class SlideThumbnailResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image'),
                 TextColumn::make('id'),
+                ImageColumn::make('image'),
                 TextColumn::make('title'),
                 TextColumn::make('content'),
                 TextColumn::make('description')->wrap()->limit(100)

@@ -12,14 +12,19 @@ class NftProduct extends Model
     use HasFactory;
     protected $fillable = [
         'art_id',
+        'user_id',
         'nft_title',
         'nft_like',
-        'nft_love',
+        'nft_click',
         'nft_price',
         'nft_coin_type',
         'nft_image',
+
     ];
     public function artCategories(): BelongsTo {
         return $this->belongsTo(ArtCategory::class, 'art_id');
+    }
+    public function users(): BelongsTo {
+        return $this->belongsTo(User::class);
     }
 }
