@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\ArtCategoryController;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\HomePageController;
+use App\Http\Controllers\API\NftProductController;
+use App\Http\Controllers\API\UserAccountController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,24 +23,30 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(\App\Http\Controllers\API\AuthController::class)->group(function () {
+Route::controller(AuthController::class)->group(function () {
     Route::post('w3login', 'w3Login');
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::get('refresh', 'refresh');
 //    Route::get('getProfile', 'userProfile');
 });
-Route::prefix('home')->controller(\App\Http\Controllers\API\HomePageController::class)->group(function () {
+Route::prefix('home')->controller(HomePageController::class)->group(function () {
     Route::get('get-slides', 'getSlide');
-    Route::get('get-quest-corridors', 'getQuestCorridor');
-    Route::get('get-analogData', 'getAnalogData');
-    Route::get('get-cooperated-films', 'getCooperatedFilm');
 });
-Route::prefix('page-account')->controller(\App\Http\Controllers\API\UserAccountController::class)->group(function () {
-    Route::get('get-profile', 'getProfile');
+Route::prefix('page-account')->controller(UserAccountController::class)->group(function () {
+//    Route::get('get-profile', 'getProfile');
+
+    Route::get('referrals', 'getChildren');
     Route::post('add-exchange', 'addExchange');
     Route::get('get-exchanges', 'getExchange');
-    Route::get('get-cooperated-films', 'getCooperatedFilm');
-
+    Route::get('get-withdraws', 'getWithdraw');
     Route::post('add-withdraw', 'addWithdraw');
+});
+
+Route::prefix('art-category')->controller(ArtCategoryController::class)->group(function () {
+    Route::get('arts', 'getArt');
+    Route::post('arts/{id}', 'getArtByLevel');
+});
+Route::prefix('nft-product')->controller(NftProductController::class)->group(function () {
+    Route::post('getProducts', 'getNftProduct');
 });
