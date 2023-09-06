@@ -70,8 +70,8 @@ class User extends Authenticatable
     public function deposits(): BelongsTo {
         return $this->belongsTo(Deposit::class, 'user_id');
     }
-    public function withdrawals(): HasMany {
-        return $this->hasMany(Deposit::class,'user_id');
+    public function withdrawals(): BelongsTo {
+        return $this->belongsTo(Withdraw::class,'user_id');
     }
     public function BankCardManagements(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id');

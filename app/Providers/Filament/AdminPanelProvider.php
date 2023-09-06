@@ -71,6 +71,9 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Home Page')
                     ->collapsed(),
                 NavigationGroup::make()
+                    ->label('Shop')
+                    ->collapsed(),
+                NavigationGroup::make()
                     ->label('User Information')
 //                    ->icon('heroicon-o-pencil')
                     ->collapsed(),
