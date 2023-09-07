@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('nft_product_id')->constrained('nft_products');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

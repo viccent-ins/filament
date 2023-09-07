@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseResponseController;
 use App\Http\Controllers\Children;
-use App\Models\Deposit;
 use App\Models\Exchange;
 use App\Models\User;
 use App\Models\Withdraw;
@@ -19,37 +18,37 @@ class UserAccountController extends BaseResponseController
     {
         $this->middleware('auth:api');
     }
-    public function getDeposit(): Response
-    {
-        $deposits = Deposit::orderBy('created_at', 'desc')
-            ->where('user_id', $this->getAuthId())
-            ->get();
-        $Result = [
-            'Deposits' => $deposits,
-        ];
-        return $this->responseSuccess($Result);
-    }
-
-    public function storeDeposit(Request $request): Response
-    {
-        $request->validate([
-            'deposit_amount' => 'required',
-            'deposit_bank' => 'required',
-        ]);
-        $deposit = new Deposit();
-        try {
-            $deposit->user_id = $this->getAuthId();
-            $deposit->deposit_amount = $request->deposit_amount;
-            $deposit->deposit_bank = $request->deposit_bank;
-            $deposit->save();
-        } catch (Exception $e) {
-            return Response($e->getMessage());
-        }
-        $Result = [
-            'Deposit' => $deposit,
-        ];
-        return $this->responseSuccess($Result);
-    }
+//    public function getDeposit(): Response
+//    {
+//        $deposits = Deposit::orderBy('created_at', 'desc')
+//            ->where('user_id', $this->getAuthId())
+//            ->get();
+//        $Result = [
+//            'Deposits' => $deposits,
+//        ];
+//        return $this->responseSuccess($Result);
+//    }
+//
+//    public function storeDeposit(Request $request): Response
+//    {
+//        $request->validate([
+//            'deposit_amount' => 'required',
+//            'deposit_bank' => 'required',
+//        ]);
+//        $deposit = new Deposit();
+//        try {
+//            $deposit->user_id = $this->getAuthId();
+//            $deposit->deposit_amount = $request->deposit_amount;
+//            $deposit->deposit_bank = $request->deposit_bank;
+//            $deposit->save();
+//        } catch (Exception $e) {
+//            return Response($e->getMessage());
+//        }
+//        $Result = [
+//            'Deposit' => $deposit,
+//        ];
+//        return $this->responseSuccess($Result);
+//    }
 
     public function getWithdraw(): Response
     {

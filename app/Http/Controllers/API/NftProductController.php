@@ -4,10 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseResponseController;
 use App\Http\Controllers\FileHelperController;
+use App\Models\Like;
 use App\Models\NftProduct;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+
 class NftProductController extends BaseResponseController
 {
     public function __construct()
@@ -19,9 +22,17 @@ class NftProductController extends BaseResponseController
     public function getNftProduct(Request $request): Response {
 
         $nftProducts = NftProduct::where('art_id', $request->art_id)->get();
+        $nftProductsIncludeLikes = [];
+        foreach ($nftProducts as $k => $value) {
+            $data = DB::table('likes')->where('nft_product_id', $value->id)->get();
+            $obj = $value;
+            $nftProductsIncludeLikes[] = $obj;
+            $nftProductsIncludeLikes[$k]['likes'] = count($data);
+
+        }
         $result = [
             'Message' => 'Success',
-            'ArtLevels' =>$nftProducts,
+            'NftProducts' =>$nftProductsIncludeLikes,
         ];
         return $this->responseSuccess($result);
     }
@@ -35,7 +46,6 @@ class NftProductController extends BaseResponseController
            'nft_coin_type' => 'required',
            'nft_image' => 'required'
         ]);
-
         $nftPos = new NftProduct();
         try {
             $image = $request->nft_image;

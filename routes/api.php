@@ -51,3 +51,7 @@ Route::prefix('nft-product')->controller(NftProductController::class)->group(fun
     Route::post('getProducts', 'getNftProduct');
     Route::post('postNft', 'postNftProduct');
 });
+Route::prefix('nft-product')->controller(\App\Http\Controllers\API\LikeController::class)->group(function () {
+    Route::get('get-likes', 'getLike');
+    Route::post('toggle-like', 'storeLike');
+});
