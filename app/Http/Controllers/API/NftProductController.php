@@ -21,7 +21,10 @@ class NftProductController extends BaseResponseController
 
     public function getNftProduct(Request $request): Response {
 
-        $nftProducts = NftProduct::where('art_id', $request->art_id)->get();
+        $nftProducts = NftProduct::where([
+            'art_id' => $request->art_id,
+            'is_transfer' => 0,
+        ])->get();
         $nftProductsIncludeLikes = [];
         foreach ($nftProducts as $k => $value) {
             $data = DB::table('likes')->where('nft_product_id', $value->id)->get();

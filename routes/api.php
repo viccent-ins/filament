@@ -3,7 +3,9 @@
 use App\Http\Controllers\API\ArtCategoryController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\HomePageController;
+use App\Http\Controllers\API\LikeController;
 use App\Http\Controllers\API\NftProductController;
+use App\Http\Controllers\API\PurchasingProductController;
 use App\Http\Controllers\API\UserAccountController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,7 +53,11 @@ Route::prefix('nft-product')->controller(NftProductController::class)->group(fun
     Route::post('getProducts', 'getNftProduct');
     Route::post('postNft', 'postNftProduct');
 });
-Route::prefix('nft-product')->controller(\App\Http\Controllers\API\LikeController::class)->group(function () {
+Route::prefix('nft-product')->controller(LikeController::class)->group(function () {
     Route::get('get-likes', 'getLike');
     Route::post('toggle-like', 'storeLike');
+});
+Route::prefix('sell-purchase')->controller(PurchasingProductController::class)->group(function () {
+    Route::get('get-purchases', 'get');
+    Route::post('purchase-nft', 'purchaseProduct');
 });

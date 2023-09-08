@@ -25,7 +25,6 @@ class LikeController extends BaseResponseController
         $request->validate([
            'nft_product_id' => 'required',
         ]);
-
         $like = Like::where([
             'user_id' => $this->getAuthId(),
             'nft_product_id' => $request->nft_product_id
