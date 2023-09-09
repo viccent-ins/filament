@@ -29,8 +29,7 @@ class ExchangeRateResource extends Resource
                 ->schema([
                     Forms\Components\TextInput::make('usd_currency')
                         ->required()
-                        ->integer()
-                        ->default(1),
+                        ->numeric(),
                     Forms\Components\TextInput::make('crypto_currency_rate')
                         ->required()
                         ->numeric(),

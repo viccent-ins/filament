@@ -17,6 +17,7 @@ class BalanceRecordResource extends Resource
 {
     protected static ?string $model = Balance::class;
     protected static ?string $navigationGroup = 'User Information';
+    protected static ?string $navigationLabel = 'Transactions';
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
