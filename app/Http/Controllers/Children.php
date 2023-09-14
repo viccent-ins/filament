@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class Children extends BaseResponseController
 {
-    public $arr = [];
-    public function __construct($arrays = [])
+    public array $arr = [];
+    public function __construct($arrays)
     {
         $this->arr = $arrays;
     }
-    public function getChildren($myid, $withself = false)
+    public function getChildren($myid, $withself = false): array
     {
         $newarr = [];
         foreach ($this->arr as $value) {
@@ -38,7 +38,7 @@ class Children extends BaseResponseController
     {
         return $this->arr->sum('money');
     }
-    public function getTotalDepositOrWithdraw($result = [], $cash = '')
+    public function getTotalDepositOrWithdraw(array $result, string $cash = '')
     {
         try {
             $depositsOrWithdraw = [];
@@ -88,6 +88,6 @@ class Children extends BaseResponseController
             // do task when error
             return $e->getMessage();
         }
-        return ($filterData);
+        return $filterData;
     }
 }
