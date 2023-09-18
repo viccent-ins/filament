@@ -30,12 +30,12 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
             ->sidebarCollapsibleOnDesktop()
             ->colors([
-                'primary' => Color::Amber,
-//                'danger' => Color::Rose,
-//                'info' => Color::Blue,
+                'primary' => Color::Violet,
+                'danger' => Color::Rose,
+                'info' => Color::Blue,
 //                'primary' => Color::Indigo,
-//                'success' => Color::Emerald,
-//                'warning' => Color::Orange,
+                'success' => Color::Emerald,
+                'warning' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
